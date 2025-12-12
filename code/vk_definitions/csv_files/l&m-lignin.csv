@@ -1,0 +1,298 @@
+﻿Lignin,Number,C,H,O
+Monomer,"39,190*",6,6,1
+Monomer,54,7,8,1
+Monomer,"39,176*",7,8,2
+Monomer,56,8,10,2
+Monomer,"40,189*",8,12,3
+Monomer,55,9,12,3
+Monomer,"4,24*",7,9,2
+Monomer,"37,205*",8,11,2
+Monomer,"19,200*",8,11,3
+Monomer,"5,143*",9,13,3
+Monomer,"16,201*",9,15,4
+Monomer,"10,23*",8,11,2
+Monomer,"209,210*",9,13,2
+Monomer,"11,202*",9,14,3
+Monomer,"13,204*",10,16,3
+Monomer,"12,195*",11,18,4
+Monomer,"14,207*",7,6,2
+Monomer,203,8,8,2
+Monomer,"15,174*",8,8,3
+Monomers,57,10,10,3
+Monomers,"41,206*",9,10,4
+Monomers,"58,208*",7,6,3
+Monomers,20,8,8,3
+Monomers,"42,192*",8,10,4
+Monomers,44,9,12,4
+Monomers,"43,175*",9,12,5
+Monomers,"18,17*",8,10,3
+Monomers,25,9,12,3
+Monomers,"65,180*",9,12,4
+Monomers,69,10,14,4
+Monomers,"64,191*",10,14,5
+Monomers,"6,173*",8,8,2
+Monomers,36,9,10,2
+Monomers,"7,103*",9,10,3
+Monomers,9,10,12,3
+Monomers,"8,177*",10,12,4
+Monomers,156,11,14,4
+Monomers,"151,2003,222*",9,10,2
+Monomers,"219,220*",10,12,2
+Monomers,"87,2001,142*cis231",10,12,3
+Monomers,"145,159*",11,14,3
+Monomers,"2002,211*",11,14,4
+Monomers,302,12,16,4
+Monomers,"152,223*",9,8,2
+Monomers,215,10,10,2
+Monomers,"144,141*",10,10,3
+Monomers,150,11,12,3
+Monomers,"153,155*",11,12,4
+Monomers,"45,129*",9,8,3
+Monomers,49,10,10,3
+Monomers,"48t,124c,108t*",10,10,4
+Monomers,47,11,12,4
+Monomers,"46,178*",11,12,5
+Monomers,63,12,14,5
+Monomers,"61,148*",10,10,3
+Monomers,59,11,12,3
+Monomers,"68,149*",11,12,4
+Monomers,70,12,14,4
+Monomers,"60,196*",12,14,5
+Monomers,62,13,16,5
+Misc Monomers,"279,280*",10,14,3
+Misc Monomers,"113,115*",10,12,2
+Misc Monomers,"114,116*",11,14,3
+Misc Monomers,"112,111*",10,12,2
+Misc Monomers,"127,128*",10,10,3
+Misc Monomers,35,11,12,4
+Misc Monomers,94,9,10,3
+Misc Monomers,167,10,12,3
+Misc Monomers,136,9,10,2
+Misc Monomers,96,9,8,1
+Misc Monomers,95,9,10,1
+Misc Monomers,240*,10,14,5
+Misc Monomers,"272*,285",11,16,6
+Misc Monomers,160,11,16,5
+Misc Monomers,"161,1*",11,14,5
+Misc Monomers,130,13,16,6
+Misc Monomers,"264,265*",10,12,4
+Misc Monomers,"290,294*",11,16,4
+Misc Monomers,"292,296*",12,18,4
+Misc Monomers,"291,295*",11,14,4
+Misc Monomers,293,10,14,4
+Misc Monomers,297,9,12,3
+"b-O-4 Dimers, 2-Carbon Sidechain",125,14,14,3
+"b-O-4 Dimers, 2-Carbon Sidechain",126,16,18,5
+"b-O-4 Dimers, 2-Carbon Sidechain",147,17,20,5
+"b-O-4 Dimers, 2-Carbon Sidechain",50,17,20,6
+"b-O-4 Dimers, 2-Carbon Sidechain",51,19,20,6
+"b-O-4 Dimers, 2-Carbon Sidechain",52,20,22,7
+"b-O-4 Dimers, 2-Carbon Sidechain",53,21,24,8
+"b-O-4 Dimers, 2-Carbon Sidechain","22,26*",19,22,6
+"b-O-4 Dimers, 2-Carbon Sidechain","132,138",17,20,5
+"b-O-4 Dimers, 2-Carbon Sidechain",146,20,22,5
+"b-O-4 Dimers, 2-Carbon Sidechain","154,1027*",16,16,5
+"b-O-4 Dimers, 2-Carbon Sidechain",27,20,22,6
+"b-O-4 Dimers, 3-Carbon Sidechain, a-C=O",80,21,22,8
+"b-O-4 Dimers, 3-Carbon Sidechain, a-C=O",81,22,24,9
+"b-O-4 Dimers, 3-Carbon Sidechain, a-C=O",79,23,26,10
+"b-O-4 Dimers, 3-Carbon Sidechain, a-C=O",246,25,28,10
+"b-O-4 Dimers, 3-Carbon Sidechain, a-C=O","922,067",20,22,8
+"b-O-4 Dimers, 3-Carbon Sidechain, a-C=O","110,163*",18,20,6
+"b-O-4 Dimers, 3-Carbon Sidechain, a-C=O","106,162*,1028",17,18,6
+"b-O-4 Dimers, 3-Carbon Sidechain, a-C=O","212,082",19,22,8
+"b-O-4 Dimers, 3-Carbon Sidechain","101e,102t,74t*,214e*",17,18,7
+"b-O-4 Dimers, 3-Carbon Sidechain","133,137*",18,22,6
+"b-O-4 Dimers, 3-Carbon Sidechain","131,140*",19,24,7
+"b-O-4 Dimers, 3-Carbon Sidechain","134,139*",20,26,8
+"b-O-4 Dimers, 3-Carbon Sidechain",244,17,20,5
+"b-O-4 Dimers, 3-Carbon Sidechain","248t,227e*",18,22,6
+"b-O-4 Dimers, 3-Carbon Sidechain","242,232*",19,24,7
+"b-O-4 Dimers, 3-Carbon Sidechain",179,18,22,7
+"b-O-4 Dimers, 3-Carbon Sidechain","104t,105e,3e*",18,22,6
+"b-O-4 Dimers, 3-Carbon Sidechain","31,32*",19,24,6
+"b-O-4 Dimers, 3-Carbon Sidechain","34,33*",20,26,7
+"b-O-4 Dimers, 3-Carbon Sidechain","2,29*",21,28,8
+"b-O-4 Dimers, 3-Carbon Sidechain",166,17,20,6
+"b-O-4 Dimers, 3-Carbon Sidechain",168,18,20,6
+B-O-4 dimers 3-carbon sidechain,"90,99*",18,22,7
+B-O-4 dimers 3-carbon sidechain,"91,100*",19,24,7
+B-O-4 dimers 3-carbon sidechain,"88,97*",20,26,8
+B-O-4 dimers 3-carbon sidechain,"89,98*",21,28,9
+B-O-4 dimers 3-carbon sidechain,245,19,24,7
+B-O-4 dimers 3-carbon sidechain,"243,230*",20,26,8
+B-O-4 dimers 3-carbon sidechain,"212,213*",19,24,8
+B-O-4 dimers 3-carbon sidechain,229*,20,26,9
+B-O-4 dimers 3-carbon sidechain,"217,218*",18,22,6
+B-O-4 dimers 3-carbon sidechain,135,20,26,7
+B-O-4 dimers 3-carbon sidechain,225,27,32,11
+B-O-4 dimers 3-carbon sidechain,"241,238*",17,20,5
+B-O-4 dimers 3-carbon sidechain,"268e,269t,270e*,271t*",16,18,4
+B-O-4 dimers 3-carbon sidechain,228,26,30,12
+B-O-4 dimers 3-carbon sidechain,3025,19,24,5
+B-O-4 dimers 3-carbon sidechain,3026,20,26,6
+B-O-4 dimers 3-carbon sidechain,3027,20,26,6
+B-O-4 dimers 3-carbon sidechain,3028,21,28,7
+B-O-4 dimers 3-carbon sidechain,"2013t,2014e,2012e*,2011t*,3008t*",20,24,7
+B-O-4 dimers 3-carbon sidechain,"3067,188*",21,26,8
+B-O-4 dimers 3-carbon sidechain,186*,21,26,8
+B-O-4 dimers 3-carbon sidechain,185*,22,28,9
+B-O-4 dimers 3-carbon sidechain,"3010t*,3011e*",20,22,7
+B-O-4 dimers 3-carbon sidechain,3071,21,24,8
+B-O-4 dimers 3-carbon sidechain,3031,20,18,6
+B-O-4 dimers 3-carbon sidechain,2040,20,18,8
+B-O-4 dimers 3-carbon sidechain,"3034,3035*",17,16,5
+B-O-4 dimers 3-carbon sidechain,"3036,3037*",18,18,6
+B-O-4 dimers 3-carbon sidechain,"3038,3039*",18,18,6
+B-O-4 dimers 3-carbon sidechain,"3040,3041*",19,20,7
+B-O-4 dimers 3-carbon sidechain,2041,23,24,7
+B-O-4 dimers 3-carbon sidechain,2042,22,22,6
+B-O-4 dimers 3-carbon sidechain,"2043e,2044t",22,24,8
+B-O-4 dimers 3-carbon sidechain,"2045e,2046t",28,36,10
+B-O-4 dimers 3-carbon sidechain,3053,18,20,6
+B-O-4 dimers 3-carbon sidechain,3057,18,20,6
+B-O-4 dimers 3-carbon sidechain,3052,20,22,7
+B-O-4 dimers 3-carbon sidechain,3056,20,22,7
+B-O-4 dimers 3-carbon sidechain,"30,503,051",27,30,8
+B-O-4 dimers 3-carbon sidechain,"30,543,055",27,30,8
+"5-Hydroxyconiferyl alcohol b-O-4 Dimers, 3-Chain Sidechain",3068,20,22,7
+"5-Hydroxyconiferyl alcohol b-O-4 Dimers, 3-Chain Sidechain",3069,20,20,7
+"5-Hydroxyconiferyl alcohol b-O-4 Dimers, 3-Chain Sidechain",3070,22,24,8
+b-5 Dimers,239,21,24,6
+b-5 Dimers,234,22,26,7
+b-5 Dimers,66,20,20,4
+b-5 Dimers,73,21,22,4
+b-5 Dimers,67,20,22,4
+b-5 Dimers,"2004,2005*",20,22,6
+b-5 Dimers,"2051,221*",21,24,6
+b-5 Dimers,267,26,36,4
+b-5 Dimers,"3063,187*",21,26,7
+b-5 Dimers,2021,20,22,6
+b-5 Dimers,2006,24,28,8
+b-5 Dimers,2018,20,20,8
+b-5 Dimers,2052,22,24,8
+b-5 Dimers,262,30,36,13
+b-5 Dimers,3059,20,20,6
+b-5 Dimers,3061,18,20,6
+b-5 Dimers,2054,20,18,8
+b-5 Dimers,2019,24,26,8
+b-5 Dimers,3030,20,18,16
+b-b Dimers,"2020,109*",20,22,6
+b-b Dimers,"117,123*",22,26,8
+b-b Dimers,"2029,2030*/2028/2027",20,20,7
+b-b Dimers,2008,20,18,8
+b-b Dimers,"3002,3042*",22,22,10
+b-b Dimers,2070,28,34,10
+b-b Dimers,2026,20,18,5
+b-b Dimers,"30,143,015",20,24,6
+b-b Dimers,2033,20,20,8
+b-b Dimers,2034,21,22,8
+b-b Dimers,2035,22,22,8
+b-b Dimers,2036,20,18,8
+b-b Dimers,2062,21,20,8
+b-b Dimers,"3017,3016*",20,22,6
+b-b Dimers,"20,693,018",29,32,11
+b-b Dimers,3060,22,22,8
+b-b Dimers,2031,20,18,8
+b-b Dimers,2032,21,20,8
+b-b Dimers,3032,20,18,6
+5-5 Dimers,28,16,14,6
+5-5 Dimers,71,18,18,6
+5-5 Dimers,72,18,18,8
+5-5 Dimers,247,20,22,6
+5-5 Dimers,"275,276*",17,18,6
+5-5 Dimers,3033,20,18,6
+5-5 Dimers,2056,20,18,8
+5-5 Dimers,2057,24,26,8
+5-5 Dimers,2058,20,22,6
+5-5 Dimers,"259,260*",20,26,6
+5-5 Dimers,"281,282*",20,26,6
+b-1 Dimers,233,23,24,9
+b-1 Dimers,"171,3004e",17,20,6
+b-1 Dimers,3007e,26,28,10
+5-O-4 Dimers,2037,20,22,7
+5-O-4 Dimers,2038,16,14,6
+5-O-4 Dimers,2039,17,18,6
+5-O-4 Dimers,300,18,18,6
+5-O-4 Dimers,3003,20,18,8
+5-O-4 Dimers,2001,24,26,8
+5-O-4 Dimers,"273,274*",20,26,5
+5-O-4 Dimers,286,21,28,4
+Trimers,"183,184*",32,38,14
+Trimers,"198,199*",33,40,15
+Trimers,3064,31,36,13
+Trimers,263,38,42,14
+Trimers,193,45,54,20
+Trimers,"181,182*",30,34,11
+Trimers,216*,29,32,11
+Trimers,3065,30,32,11
+Trimers,3072,30,34,11
+Trimers,226,38,44,16
+Trimers,250,40,48,17
+Trimers,261,39,46,17
+Trimers,"2015e,2022e",30,34,9
+Trimers,258,34,36,12
+Trimers,237,30,34,9
+Trimers,266,33,40,12
+Trimers,2049,24,22,7
+Trimers,"2,363,013",40,46,15
+Trimers,235,41,48,16
+Trimers,3012,37,40,14
+Trimers,"284,289*",30,38,9
+Trimers,299,38,46,13
+Trimers,3062,26,24,8
+Trimers,"277,278*",30,36,9
+Trimers Containing Ferulic or Coumaric Acid,"1015t,1016e,1019t*,1020e",26,26,8
+Trimers Containing Ferulic or Coumaric Acid,3058,30,26,9
+Trimers Containing Ferulic or Coumaric Acid,"1017t,1018e,1021t*",27,28,9
+Trimers Containing Ferulic or Coumaric Acid,1009,30,30,9
+Trimers Containing Ferulic or Coumaric Acid,1010,31,32,10
+Trimers Containing Ferulic or Coumaric Acid,2016,38,42,13
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid",2066,31,30,11
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid",2081,32,32,12
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid","2076t,2078e",27,28,9
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid","2071t,2072e",28,30,10
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid","1023t,1024e",32,32,11
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid","1025t,1026e,84e",33,34,12
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid","85,86",31,32,10
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid","1001t,1002e,1005t*",26,26,8
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid","1003t,1004e,1008e*",27,28,9
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid",3019,30,30,9
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid",3022,31,32,10
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid",3020,31,32,9
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid",3021,33,34,10
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid",3023,32,34,11
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid",3024,34,36,12
+"Trimers Containing Ferulic, Coumaric, or p-OH-Benzoic Acid",3066,29,32,11
+Tetramers,2023e,45,48,13
+Tetramers,"2017e,2024t*",41,46,12
+Tetramers,"2060,2061*",39,36,10
+Tetramers,"170,169*",38,42,8
+Tetramers,224,43,48,15
+Tetramers,3009,46,50,18
+Tetramers,"164,165*",40,42,12
+Tetramers,"194,197*",42,50,16
+Tetramers,"2025e,2059",41,46,11
+Misc Compounds,2009,19,18,5
+Misc Compounds,2065,20,20,6
+Misc Compounds,2063,19,22,5
+Misc Compounds,2064,20,24,6
+Misc Compounds,2010,17,16,4
+Misc Compounds,2047,16,20,6
+Misc Compounds,2048,12,16,4
+Misc Compounds,2050,24,28,8
+Misc Compounds,2053,19,18,6
+Misc Compounds,2055,14,16,5
+Misc Compounds,93,13,10,2
+Misc Compounds,2007,18,18,4
+Misc Compounds,251,26,26,6
+Misc Compounds,252,17,18,3
+Misc Compounds,253,28,24,9
+Misc Compounds,254,26,24,6
+Misc Compounds,3029,21,24,6
+Misc Compounds,255,19,18,6
+Misc Compounds,256,19,18,6
+Misc Compounds,257,17,16,6
+Misc Compounds,298,16,14,4
+Misc Compounds,301,17,16,5
+Misc Compounds,3043,18,20,7
