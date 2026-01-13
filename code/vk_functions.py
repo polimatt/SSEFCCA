@@ -1,6 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+axis_label_size = 14
+legend_label_size = 12
+title_label_size = 16
+
 # Global variables ------------------------------------------------------------------------------------
 weighted = True
 
@@ -16,18 +20,25 @@ vk_region_colours = {
 
     'pah': "#808080",
 
+    'phytochemical': '#52D66E',
+
     'unassigned': '#e6e6e6'
 }
 
-svc_poly_param_2d = dict(C=10, degree=1, gamma=1) # chosen SVC polynomial kernel parameters after optimisation
-svc_poly_param_3d = dict(C=500, degree=3, gamma=0.1)
-svc_rbf_param_2d = dict(C=1000, gamma=0.01) # chosen SVC RBF kernel parameters after optimisation
-svc_rbf_param_3d = dict(C=1000, gamma=0.01)
+knn_param_2d = dict(n_neighbors=150, weights='distance')
+knn_param_3d = dict(n_neighbors=10, weights='distance')
+knn_param_2d_with_PAHs = dict(n_neighbors=150, weights='distance')
+knn_param_3d_with_PAHs = dict(n_neighbors=10, weights='distance')
 
-svc_poly_param_2d_with_PAHs = dict(C=10, degree=1, gamma='auto')
-svc_poly_param_3d_with_PAHs = dict(C=500, degree=3, gamma=0.1)
-svc_rbf_param_2d_with_PAHs = dict(C=100, gamma=1)
-svc_rbf_param_3d_with_PAHs = dict(C=100, gamma='auto')
+svm_poly_param_2d = dict(C=10, degree=1, gamma=1) # chosen SVC polynomial kernel parameters after optimisation
+svm_poly_param_3d = dict(C=500, degree=3, gamma=0.1)
+svm_poly_param_2d_with_PAHs = dict(C=10, degree=1, gamma='auto')
+svm_poly_param_3d_with_PAHs = dict(C=500, degree=3, gamma=0.1)
+
+svm_rbf_param_2d = dict(C=1000, gamma=0.01) # chosen SVC RBF kernel parameters after optimisation
+svm_rbf_param_3d = dict(C=1000, gamma=0.01)
+svm_rbf_param_2d_with_PAHs = dict(C=100, gamma=1)
+svm_rbf_param_3d_with_PAHs = dict(C=100, gamma='auto')
 
 # van Krevelen diagram regions definitions --------------------------------------------------------
 
@@ -40,27 +51,40 @@ rivasubach_areas = { # van Krevelen diagram regions from Rivas-Ubach et al. 2018
                 'peptide2':        {'O/C': [0.6,1],      'H/C': [1.2,2.5],    'N/C': [0.2,0.7]     },
 }
 
+# laszakovits_mackay_areas = { # van Krevelen diagram regions from Laszakovits and MacKay 2022
+#                 'amino_sugar':     {'O/C': [0.5,0.91],   'H/C': [1.69,2.33],   },
+#                 'carbohydrate':    {'O/C': [0.55,1.17],  'H/C': [1.43,2]       },
+#                 'peptide':         {'O/C': [0.09,0.75],  'H/C': [0.91,2]       },
+#                 'lipid':           {'O/C': [0.02,0.37],  'H/C': [1.16,2.33]    },
+#                 'lignin':          {'O/C': [0.11,0.42],  'H/C': [0.77,1.33]    },
+#                 'tannin':          {'O/C': [0.13,0.81],  'H/C': [0.68,1.18]    },
+# }
+
 laszakovits_mackay_areas = { # van Krevelen diagram regions from Laszakovits and MacKay 2022
-                'amino_sugar':     {'O/C': [0.5,0.91],   'H/C': [1.69,2.33],   },
-                'carbohydrate':    {'O/C': [0.55,1.17],  'H/C': [1.43,2]       },
-                'lipid':           {'O/C': [0.02,0.37],  'H/C': [1.16,2.33]    },
-                'lignin':          {'O/C': [0.11,0.42],  'H/C': [0.77,1.33]    },
-                'tannin':          {'O/C': [0.13,0.81],  'H/C': [0.68,1.18]    },
-                'peptide':         {'O/C': [0.09,0.75],  'H/C': [0.91,2]       },
+                'amino_sugar':     {'O/C': [0.56,0.95],  'H/C': [1.62,2.35],   },
+                'carbohydrate':    {'O/C': [0.56,1.23],  'H/C': [1.53,2.2]     },
+                'peptide':         {'O/C': [0.17,0.48],  'H/C': [1.33,1.84]    },
+                'lipid':           {'O/C': [0.01,0.35],  'H/C': [1.34,2.18]    },
+                'lignin':          {'O/C': [0.21,0.44],  'H/C': [0.86,1.34]    },
+                'tannin':          {'O/C': [0.16,0.84],  'H/C': [0.7,1.01]     },
 }
 
 # adjust Rivas-Ubach et al. 2018 categories to match the categories in our dataset by replacing 'phytochemical' with 'lignin' and 'tannin' based on O/C and H/C ratios from Laszakovits and MacKay 2022
-ru_lm_areas = { # van Krevelen diagram regions from Rivas-Ubach et al. 2018
-                'carbohydrate':    {'O/C': [0.8,50],      'H/C': [1.65,2.7],   'N/C': [-1,0]        }, #[[O/C_min,O/C_max],[H/C_min,H/C_max]]
-                'lipid':           {'O/C': [-1,0.6],      'H/C': [1.32,50],    'N/C': [-1,0.126]    }, # -1 indicates is used to include 0; 50 is used to include +infinity
-                'tannin':          {'O/C': [0.13,0.81],   'H/C': [0.68,1.18],  'N/C': [-1,0]        },
-                'lignin':          {'O/C': [0.11,0.42],   'H/C': [0.77,1.33],  'N/C': [-1,0]        },
-                'amino_sugar':     {'O/C': [0.61,50],     'H/C': [1.45,50],    'N/C': [0.07,0.2]    }, #a third item to indicate that this class contains N (put N/C ratio)
-                'peptide1':        {'O/C': [0.12,0.6],    'H/C': [0.9,2.5],    'N/C': [0.126,0.7]   },
-                'peptide2':        {'O/C': [0.6,1],       'H/C': [1.2,2.5],    'N/C': [0.2,0.7]     },
-}
+ru_lm_areas = {x:rivasubach_areas[x] for x in rivasubach_areas if x != 'phytochemical'}
+for cat in ['lignin','tannin']:
+    ru_lm_areas[cat] = laszakovits_mackay_areas[cat]
+    ru_lm_areas[cat]['N/C'] = rivasubach_areas['phytochemical']['N/C']
 
 # Functions -------------------------------------------------------------------------------------------
+
+def knn_pipeline(KNeighborsClassifier_parameters):
+    from sklearn.neighbors import KNeighborsClassifier
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import StandardScaler
+
+    return Pipeline(steps=[("scaler", StandardScaler()), ("knn", KNeighborsClassifier(**KNeighborsClassifier_parameters))])
+
+
 def train_test(X, y,train_size=0.8,weighted_yn=weighted,random_state=5):
 
     from sklearn.model_selection import train_test_split
@@ -87,7 +111,7 @@ def train_test(X, y,train_size=0.8,weighted_yn=weighted,random_state=5):
 
 
 def draw_decision_boundary_plot(estimator, X, categories, xlabel=None, ylabel=None, title=None, savepath=None,
-                                level_step=0.1,grid_resolution=500,colors_dict=None):
+                                level_step=0.1,grid_resolution=500,colors_dict=None,xlim=(0,2.5),ylim=(0,2.5)):
     from sklearn.inspection import DecisionBoundaryDisplay
 
     fig, ax = plt.subplots()
@@ -119,15 +143,15 @@ def draw_decision_boundary_plot(estimator, X, categories, xlabel=None, ylabel=No
             ax.plot([None,None],[None,None],
                     c='k',alpha=level,lw=10,label=f'{(100*level):.0f}% probability')
    
-    ax.legend(framealpha=1,bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0,fontsize=12)
+    ax.legend(framealpha=1,bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0,fontsize=legend_label_size)
 
-    ax.set_xlim(0,2.5)
-    ax.set_ylim(0,2.5)
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
 
-    ax.set_xlabel(xlabel, fontsize=14)
-    ax.set_ylabel(ylabel, fontsize=14)
+    ax.set_xlabel(xlabel, fontsize=axis_label_size)
+    ax.set_ylabel(ylabel, fontsize=axis_label_size)
 
-    if title: ax.set_title(title, fontsize=16)
+    if title: ax.set_title(title, fontsize=title_label_size)
 
     if savepath: fig.savefig(savepath, dpi = 600, facecolor = '#fff', bbox_inches='tight')
 
@@ -164,9 +188,9 @@ def draw_boxplot(data_dict, ylabel, title=None, savepath=None,colours=[],hline=N
                        patch_artist = True if len(colours)>0 else False,
                        showfliers = True)
 
-    ax.set_xticks(np.arange(1,len(labels)+1), labels, rotation=xlabel_rotation, ha=ha, fontsize=12)
+    ax.set_xticks(np.arange(1,len(labels)+1), labels, rotation=xlabel_rotation, ha=ha, fontsize=axis_label_size)
 
-    ax.set_ylabel(ylabel, fontsize=12)
+    ax.set_ylabel(ylabel, fontsize=axis_label_size)
     
     if len(colours)>0:
         if len(colours)==1:
@@ -182,7 +206,7 @@ def draw_boxplot(data_dict, ylabel, title=None, savepath=None,colours=[],hline=N
         else:
             ax.axhline(y=hline, color='r', linestyle='--', lw=1)
 
-    if title: ax.set_title(title, fontsize=14)
+    if title: ax.set_title(title, fontsize=title_label_size)
     if savepath: fig.savefig(savepath, dpi=600, facecolor='#fff', bbox_inches='tight')
 
     return fig, ax

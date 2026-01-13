@@ -1,4 +1,4 @@
-name: VK_Definitions
+name: vk_definitions
 channels:
   - conda-forge
   - defaults
