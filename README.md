@@ -1,4 +1,4 @@
-# Van Krevelen Machine Learning Boundaries
+# MLACCA
 
 Here, code is presented to create and share supervised classification models for compound class prediction based on elemental ratios (O/C, H/C, and N/C) derived from formula assignment of mass spectrometry data.
 
