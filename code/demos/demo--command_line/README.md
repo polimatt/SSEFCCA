@@ -2,7 +2,7 @@ This demo aims at demonstrating how the script compound\_class\_prediction.py ca
 
 
 
-First of all, it is important to activate a suitable Python environment. In this case, a list of modules used is available in the ..\\vk\_definitions.yaml file. The command used to activate the vk\_definitions conda environment is:
+First of all, it is important to activate a suitable Python environment. In this case, a list of modules used is available in the ..\\mlacca\_env.yaml file. The command used to activate the mlacca\_env conda environment is:
 
 
 
