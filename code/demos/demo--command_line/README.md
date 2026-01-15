@@ -6,7 +6,7 @@ First of all, it is important to activate a suitable Python environment. In this
 
 
 
-```conda activate vk\_definitions```
+```conda activate vk_definitions```
 
 
 
@@ -26,7 +26,7 @@ In the case in which the Command Prompt is already pointing at the directory con
 
 
 
-```python compound\_class\_prediction.py folder```
+```python compound_class_prediction.py folder```
 
 
 
@@ -40,8 +40,8 @@ To sum up, the commands used in this demo are:
 
 ```
 
-conda activate vk\_definitions
-python compound\_class\_prediction.py folder
+conda activate vk_definitions
+python compound_class_prediction.py folder
 
 ```
 
