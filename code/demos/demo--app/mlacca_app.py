@@ -124,7 +124,7 @@ def run_script():
     for file in files_list:
         file_path = f'{data_dir}\\{file}'
         data_df = pd.read_csv(file_path)
-        data_df = compound_classification(data_df,model)
+        data_df = compound_classification(data_df,model,molec_form_column=formulacolumn.get())
         data_df.to_csv(f'{output_dir}\\{file}')
 
         if plot_2DvK_bool.get(): dfs[file.replace('.csv','')]=data_df
@@ -273,14 +273,17 @@ button_save3DvK_explore = ttk.Button(root,
                                  text = "Browse Folder to save 3D van Krevelen diagrams in",
                                  command = browse3DvKdir)
 
+formulacolumn = tk.StringVar(root, value='Molecular Formula')
+entry_formulacolumn = ttk.Entry(textvariable=formulacolumn)
+
 submit_button = ttk.Button(root, text='Run', command=run_script)
 
 # position all elements within the window
 
-label_data_file_explorer.pack(pady=(5,0))
+label_data_file_explorer.pack(pady=(20,0))
 button_data_explore.pack(pady=(0,5))
 
-tk.Label(root,text = "Select the assignment model").pack(pady=(5,0))
+tk.Label(root,text = "Assignment model").pack(pady=(5,0))
 
 optionmenu_model.pack(pady=(0,5))
 
@@ -290,6 +293,10 @@ button_output_explore.pack(pady=(0,5))
 checkbutton_plot_2DvK.pack(pady=10)
 label_save3DvK_explorer.pack(pady=(5,0))
 button_save3DvK_explore.pack(pady=(0,5))
+
+tk.Label(root,text = "Column where the empirical formulae are stored:").pack(pady=(5,0))
+entry_formulacolumn.pack(pady=(0,5))
+
 
 submit_button.pack(pady=10)
 
