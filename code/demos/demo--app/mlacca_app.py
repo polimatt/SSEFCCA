@@ -8,14 +8,17 @@ import os
 from sklearn.calibration import CalibratedClassifierCV
 import pickle as pkl
 
-from tkinter import *
+import tkinter as tk
+from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
 
-root = Tk()
+icon_path = 'files_for_app\\logo\\mlacca.ico'
+
+root = tk.Tk()
 root.title('MLACCA') #Machine Learning Assisted Compound Class Assignment
 root.geometry(f"1000x400")
-root.iconbitmap("files_for_app\\logo\\icon.ico")
+root.iconbitmap(icon_path)
 
 models_dir_txt = '.\\files_for_app\\models_dir.txt'
 f = open(models_dir_txt)
@@ -25,10 +28,11 @@ models_paths = [x for x in os.listdir(models_dir) if x.endswith('.pkl')]
 
 model_dict = {x:y for x, y in zip([x.replace('.pkl','') for x in models_paths],models_paths)}
 
-model_chosen = StringVar(root)
-model_chosen.set(list(model_dict.keys())[0])
+model_chosen = tk.StringVar(root)
+default_model = [x for x in list(model_dict.keys()) if 'RBF' in x][0]
+# model_chosen.set(list(model_dict.keys())[0])
 
-plot_2DvK_bool = BooleanVar()
+plot_2DvK_bool = tk.BooleanVar()
 
 
 vk_region_colours = {
@@ -136,17 +140,15 @@ def run_script():
 
 def open2DvKwindow(dfs):
     dpi = 600
-    twoDvK_window = Toplevel()
+    twoDvK_window = tk.Toplevel()
     twoDvK_window.title("MLACCA - 2D van Krevelen Diagrams")
-    twoDvK_window.iconbitmap("files_for_app\\logo\\icon.ico")
-    w2_width = 800
-    w2_height = 600+40+50
+    twoDvK_window.iconbitmap(icon_path)
+    w2_width = 1000
+    w2_height = 650+40+50
     twoDvK_window.geometry(f"{w2_width}x{w2_height}")
 
-    file_chosen = StringVar(twoDvK_window)
+    file_chosen = tk.StringVar(twoDvK_window)
     file_chosen.set(list(dfs.keys())[0])
-
-    optionmenu_file = OptionMenu(twoDvK_window, file_chosen, *list(dfs.keys()))
 
     def plot_2DvK():
 
@@ -179,7 +181,8 @@ def open2DvKwindow(dfs):
         canvas.get_tk_widget().grid(column=0,row=2,columnspan=5,pady=(10,0))
         toolbar.grid(column=0,row=3,columnspan=5)
 
-    button_plot = Button(twoDvK_window, text='Plot', command=plot_2DvK)
+    optionmenu_file = ttk.OptionMenu(twoDvK_window, file_chosen, *list(dfs.keys()))
+    button_plot = ttk.Button(twoDvK_window, text='Plot', command=plot_2DvK)
 
     optionmenu_file.grid(column=3,row=0,padx=w2_width/2,pady=10)
     button_plot.grid(column=3,row=1,padx=w2_width/2,pady=10)
@@ -245,39 +248,39 @@ def save_3D_vK(df:pd.DataFrame,name:str,savepath:str):
 #%%
 # declare the elements of the GUI
 
-label_data_file_explorer = Label(root,
+label_data_file_explorer = tk.Label(root,
                                  text = input_string,
                                  fg = "#000")
-button_data_explore = Button(root,
+button_data_explore = ttk.Button(root,
                              text = "Browse Data Folder",
                              command = browsedatadir)
 
-optionmenu_model = OptionMenu(root, model_chosen, *list(model_dict.keys()))
+optionmenu_model = ttk.OptionMenu(root, model_chosen, *list(model_dict.keys()))
 
-label_output_file_explorer = Label(root,
+label_output_file_explorer = tk.Label(root,
                                    text = output_string,
                                    fg = "#000")
 
-button_output_explore = Button(root,
+button_output_explore = ttk.Button(root,
                                text = "Browse Output Folder",
                                command = browseoutputdir)
 
-checkbutton_plot_2DvK = Checkbutton(root, text = "Plot 2D van Krevelen diagrams",variable = plot_2DvK_bool)
+checkbutton_plot_2DvK = ttk.Checkbutton(root, text = "Plot 2D van Krevelen diagrams",variable = plot_2DvK_bool)
 
-label_save3DvK_explorer = Label(root,text = "If you want to save the 3D van Krevelen diagrams, please select a folder to save them in")
+label_save3DvK_explorer = tk.Label(root,text = "If you want to save the 3D van Krevelen diagrams, please select a folder to save them in")
 
-button_save3DvK_explore = Button(root,
+button_save3DvK_explore = ttk.Button(root,
                                  text = "Browse Folder to save 3D van Krevelen diagrams in",
                                  command = browse3DvKdir)
 
-submit_button = Button(root, text='Run', command=run_script)
+submit_button = ttk.Button(root, text='Run', command=run_script)
 
 # position all elements within the window
 
 label_data_file_explorer.pack(pady=(5,0))
 button_data_explore.pack(pady=(0,5))
 
-Label(root,text = "Select the assignment model").pack(pady=(5,0))
+tk.Label(root,text = "Select the assignment model").pack(pady=(5,0))
 
 optionmenu_model.pack(pady=(0,5))
 
