@@ -1,4 +1,4 @@
-![mlacca logo](https://github.com/polimatt/MLACCA/code/demos/demo--app/files_for_app/logo/logo/mlacca2_logo.svg)  
+![mlacca logo]([https://github.com/polimatt/MLACCA/code/demos/demo--app/files_for_app/logo/logo/mlacca2_logo.svg])  
 
 # MLACCA: Machine Learning Assisted Compound Class Assignment
 
