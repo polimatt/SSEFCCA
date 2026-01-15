@@ -1,3 +1,5 @@
+![mlacca logo](https://github.com/polimatt/MLACCA/code/demos/demo--app/files_for_app/logo/logo/mlacca2_logo.svg)  
+
 # MLACCA: Machine Learning Assisted Compound Class Assignment
 
 Here, code is presented to create and apply supervised classification models for compound class assignment based on elemental ratios (O/C, H/C, and N/C) derived from empirical formula assignment of mass spectrometry data.
