@@ -14,11 +14,11 @@ The full syntax to operate the script from the command line is:
 
 
 
-```python \[path to the script]\\compound_class_prediction.py \[path to the directory containing the CSV files] -mp \[path to the prediction model] -ndp \[path of the directory where the CSV files with the predicted compound classes will be saved]```
+```python [path to the script]\\compound_class_prediction.py [path to the directory containing the CSV files] -mp [path to the prediction model] -ndp [path of the directory where the CSV files with the predicted compound classes will be saved]```
 
 
 
-Only the python ```\[path to the script]\\compound_class_prediction.py \[path to the directory containing the CSV files]``` part is mandatory, the rest is optional: the path to the model is hardcoded into the script, but can be changed with any IDE or also with a text editor such as Notepad; the path of the new directory becomes the path of the old folder + "--predicted" unless specified.
+Only the python ```[path to the script]\\compound_class_prediction.py [path to the directory containing the CSV files]``` part is mandatory, the rest is optional: the path to the model is hardcoded into the script, but can be changed with any IDE or also with a text editor such as Notepad; the path of the new directory becomes the path of the old folder + "--predicted" unless specified.
 
 
 
