@@ -1,11 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Global variables ------------------------------------------------------------------------------------
 axis_label_size = 14
 legend_label_size = 12
 title_label_size = 16
 
-# Global variables ------------------------------------------------------------------------------------
 weighted = True
 
 vk_region_colours = {
@@ -27,13 +27,13 @@ vk_region_colours = {
 
 knn_param_2d = dict(n_neighbors=150, weights='distance')
 knn_param_3d = dict(n_neighbors=10, weights='distance')
-knn_param_2d_with_PAHs = dict(n_neighbors=150, weights='distance')
-knn_param_3d_with_PAHs = dict(n_neighbors=10, weights='distance')
+knn_param_2d_with_PAHs = dict(n_neighbors=200, weights='distance')
+knn_param_3d_with_PAHs = dict(n_neighbors=5, weights='distance')
 
 svm_poly_param_2d = dict(C=10, degree=1, gamma=1) # chosen SVC polynomial kernel parameters after optimisation
-svm_poly_param_3d = dict(C=500, degree=3, gamma=0.1)
+svm_poly_param_3d = dict(C=100, degree=5, gamma='auto')
 svm_poly_param_2d_with_PAHs = dict(C=10, degree=1, gamma='auto')
-svm_poly_param_3d_with_PAHs = dict(C=500, degree=3, gamma=0.1)
+svm_poly_param_3d_with_PAHs = dict(C=10, degree=4, gamma='auto')
 
 svm_rbf_param_2d = dict(C=1000, gamma=0.01) # chosen SVC RBF kernel parameters after optimisation
 svm_rbf_param_3d = dict(C=1000, gamma=0.01)
@@ -76,6 +76,29 @@ for cat in ['lignin','tannin']:
     ru_lm_areas[cat]['N/C'] = rivasubach_areas['phytochemical']['N/C']
 
 # Functions -------------------------------------------------------------------------------------------
+
+def set_axis_ticks(data,ax,axis:str='y',major_ticks_interval=0.1,minor_ticks_interval=0.05,rounding=2,
+                   lower_lim=None,upper_lim=None):
+    import matplotlib as mpl
+
+    lim = (lower_lim if lower_lim is not None else np.round(np.floor(10**rounding*np.min(list(data)))/10**rounding,rounding)-10**-rounding,
+           upper_lim if upper_lim is not None else np.round(np.ceil(10**rounding*np.max(list(data)))/10**rounding,rounding)+10**-rounding)
+    
+    if axis == 'y':
+        set_axislim = ax.set_ylim
+        set_axisticks = ax.set_yticks
+        minor_ticks = ax.yaxis.set_minor_locator
+    elif axis == 'x':
+        set_axislim = ax.set_xlim
+        set_axisticks = ax.set_xticks
+        minor_ticks = ax.xaxis.set_minor_locator
+
+    set_axislim(lim)
+    set_axisticks(np.arange(np.round(np.floor(1e2*lim[0])/1e2,1),lim[1]+0.01, major_ticks_interval))
+
+    ax.tick_params(axis=axis, which='minor')
+    minor_ticks(mpl.ticker.MultipleLocator(minor_ticks_interval))
+
 
 def knn_pipeline(KNeighborsClassifier_parameters):
     from sklearn.neighbors import KNeighborsClassifier
@@ -155,18 +178,7 @@ def draw_decision_boundary_plot(estimator, X, categories, xlabel=None, ylabel=No
 
     if savepath: fig.savefig(savepath, dpi = 600, facecolor = '#fff', bbox_inches='tight')
 
-
-def load_model_onnx(filepath):
-    ''''Load an ONNX model from a file and return an InferenceSession.'''
-
-    from onnxruntime import InferenceSession
-
-    with open(filepath, "rb") as f:
-        onnx = f.read()
-
-    sess = InferenceSession(onnx, providers=["CPUExecutionProvider"])
-
-    return sess
+    return fig, ax
 
 
 def load_pickle_model(filepath:str):
