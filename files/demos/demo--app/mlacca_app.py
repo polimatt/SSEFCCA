@@ -13,7 +13,7 @@ from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
 
-icon_path = 'files_for_app\\logo\\mlacca.ico'
+icon_path = 'files_for_app\\mlacca.ico'
 
 root = tk.Tk()
 root.title('MLACCA') #Machine Learning Assisted Compound Class Assignment

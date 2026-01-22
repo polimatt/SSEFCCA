@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 # Global variables ------------------------------------------------------------------------------------
@@ -25,20 +26,21 @@ vk_region_colours = {
     'unassigned': '#e6e6e6'
 }
 
-knn_param_2d = dict(n_neighbors=150, weights='distance')
+knn_param_2d = dict(n_neighbors=50, weights='distance')
 knn_param_3d = dict(n_neighbors=10, weights='distance')
-knn_param_2d_with_PAHs = dict(n_neighbors=200, weights='distance')
-knn_param_3d_with_PAHs = dict(n_neighbors=5, weights='distance')
+knn_param_2d_with_PAHs = dict(n_neighbors=10, weights='distance')
+knn_param_3d_with_PAHs = dict(n_neighbors=10, weights='distance')
+
+svm_rbf_param_2d = dict(C=100, gamma='auto') # chosen SVC RBF kernel parameters after optimisation
+svm_rbf_param_3d = dict(C=100, gamma='auto')
+svm_rbf_param_2d_with_PAHs = dict(C=100, gamma='auto')
+svm_rbf_param_3d_with_PAHs = dict(C=100, gamma='auto')
 
 svm_poly_param_2d = dict(C=10, degree=1, gamma=1) # chosen SVC polynomial kernel parameters after optimisation
 svm_poly_param_3d = dict(C=100, degree=5, gamma='auto')
-svm_poly_param_2d_with_PAHs = dict(C=10, degree=1, gamma='auto')
-svm_poly_param_3d_with_PAHs = dict(C=10, degree=4, gamma='auto')
+svm_poly_param_2d_with_PAHs = dict(C=10, degree=2, gamma='auto')
+svm_poly_param_3d_with_PAHs = dict(C=10, degree=5, gamma='auto')
 
-svm_rbf_param_2d = dict(C=1000, gamma=0.01) # chosen SVC RBF kernel parameters after optimisation
-svm_rbf_param_3d = dict(C=1000, gamma=0.01)
-svm_rbf_param_2d_with_PAHs = dict(C=100, gamma=1)
-svm_rbf_param_3d_with_PAHs = dict(C=100, gamma='auto')
 
 # van Krevelen diagram regions definitions --------------------------------------------------------
 
@@ -81,6 +83,8 @@ def set_axis_ticks(data,ax,axis:str='y',major_ticks_interval=0.1,minor_ticks_int
                    lower_lim=None,upper_lim=None):
     import matplotlib as mpl
 
+    if type(data) in [dict,pd.DataFrame]: data = data.values()
+
     lim = (lower_lim if lower_lim is not None else np.round(np.floor(10**rounding*np.min(list(data)))/10**rounding,rounding)-10**-rounding,
            upper_lim if upper_lim is not None else np.round(np.ceil(10**rounding*np.max(list(data)))/10**rounding,rounding)+10**-rounding)
     
@@ -100,12 +104,17 @@ def set_axis_ticks(data,ax,axis:str='y',major_ticks_interval=0.1,minor_ticks_int
     minor_ticks(mpl.ticker.MultipleLocator(minor_ticks_interval))
 
 
-def knn_pipeline(KNeighborsClassifier_parameters):
+def knn_pipeline(KNeighborsClassifier_parameters,calibrated=True):
     from sklearn.neighbors import KNeighborsClassifier
     from sklearn.pipeline import Pipeline
     from sklearn.preprocessing import StandardScaler
 
-    return Pipeline(steps=[("scaler", StandardScaler()), ("knn", KNeighborsClassifier(**KNeighborsClassifier_parameters))])
+    knn_clf = KNeighborsClassifier(**KNeighborsClassifier_parameters)
+    if calibrated:
+        from sklearn.calibration import CalibratedClassifierCV
+        knn_clf = CalibratedClassifierCV(knn_clf)
+
+    return Pipeline(steps=[("scaler", StandardScaler()), ("knn", knn_clf)])
 
 
 def train_test(X, y,train_size=0.8,weighted_yn=weighted,random_state=5):
