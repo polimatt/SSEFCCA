@@ -96,12 +96,16 @@ def set_axis_ticks(data,ax,axis:str='y',major_ticks_interval=0.1,minor_ticks_int
         set_axislim = ax.set_xlim
         set_axisticks = ax.set_xticks
         minor_ticks = ax.xaxis.set_minor_locator
+    elif axis == 'z':
+        set_axislim = ax.set_zlim
+        set_axisticks = ax.set_zticks
+        minor_ticks = ax.zaxis.set_minor_locator
 
     set_axislim(lim)
     set_axisticks(np.arange(np.round(np.floor(1e2*lim[0])/1e2,1),lim[1]+0.01, major_ticks_interval))
 
     ax.tick_params(axis=axis, which='minor')
-    minor_ticks(mpl.ticker.MultipleLocator(minor_ticks_interval))
+    if minor_ticks_interval is not None: minor_ticks(mpl.ticker.MultipleLocator(minor_ticks_interval))
 
 
 def knn_pipeline(KNeighborsClassifier_parameters,calibrated=True):
@@ -140,6 +144,31 @@ def train_test(X, y,train_size=0.8,weighted_yn=weighted,random_state=5):
         weights_test = None
 
     return X_train, X_test, y_train, y_test, weights_train, weights_test
+
+
+def molecclass(df:pd.DataFrame,areas:dict,dims=['O/C','H/C','N/C']) ->  np.ndarray:
+
+    assignments = ['unassigned'] * len(df)
+
+    for i in df[dims].index:
+        ratios = df[dims].loc[i]
+
+        for a in areas:
+            counter = 0
+
+            for d in dims:
+                if ratios[d] >= np.min(areas[a][d]) and ratios[d] <= np.max(areas[a][d]):
+                    counter += 1
+        
+            if counter == len(dims):
+                assignments[i] = a
+                break
+    
+    assignments = np.array(assignments)
+    assignments[np.where(assignments == 'peptide1')] = 'peptide'
+    assignments[np.where(assignments == 'peptide2')] = 'peptide'
+
+    return assignments
 
 
 def draw_decision_boundary_plot(estimator, X, categories, xlabel=None, ylabel=None, title=None, savepath=None,
