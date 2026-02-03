@@ -1,14 +1,26 @@
+# Author: Mattia Poli
+
+# Shared utilities and constants for MLACCA notebooks.
+
+# This module centralizes reusable plotting helpers, model utilities, and
+# van Krevelen region definitions so that multiple notebooks can share the
+# same logic and settings.
+
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
 # Global variables ------------------------------------------------------------------------------------
+# Styling defaults for plots
 axis_label_size = 14
 legend_label_size = 12
 title_label_size = 16
 
+# Global toggle for weighted training/metrics in helper functions
 weighted = True
 
+# Consistent color mapping for molecular categories
 vk_region_colours = {
     'lipid': '#F5C308',
     'peptide': '#BD3A53',
@@ -26,16 +38,19 @@ vk_region_colours = {
     'unassigned': '#e6e6e6'
 }
 
+# KNN hyperparameters
 knn_param_2d = dict(n_neighbors=50, weights='distance')
 knn_param_3d = dict(n_neighbors=10, weights='distance')
 knn_param_2d_with_PAHs = dict(n_neighbors=10, weights='distance')
 knn_param_3d_with_PAHs = dict(n_neighbors=10, weights='distance')
 
+# SVM (RBF) hyperparameters
 svm_rbf_param_2d = dict(C=100, gamma='auto') # chosen SVC RBF kernel parameters after optimisation
 svm_rbf_param_3d = dict(C=100, gamma='auto')
 svm_rbf_param_2d_with_PAHs = dict(C=100, gamma='auto')
 svm_rbf_param_3d_with_PAHs = dict(C=100, gamma='auto')
 
+# SVM (polynomial) hyperparameters
 svm_poly_param_2d = dict(C=10, degree=1, gamma=1) # chosen SVC polynomial kernel parameters after optimisation
 svm_poly_param_3d = dict(C=100, degree=5, gamma='auto')
 svm_poly_param_2d_with_PAHs = dict(C=10, degree=2, gamma='auto')
@@ -43,51 +58,122 @@ svm_poly_param_3d_with_PAHs = dict(C=10, degree=5, gamma='auto')
 
 
 # van Krevelen diagram regions definitions --------------------------------------------------------
+# Default dimensionality for 3D van Krevelen space
 
-rivasubach_areas = { # van Krevelen diagram regions from Rivas-Ubach et al. 2018
-                'carbohydrate':    {'O/C': [0.8,50],     'H/C': [1.65,2.7],   'N/C': [-1,0]        }, #[[O/C_min,O/C_max],[H/C_min,H/C_max]]
-                'lipid':           {'O/C': [-1,0.6],     'H/C': [1.32,50],    'N/C': [-1,0.126]    }, # -1 indicates is used to include 0; 50 is used to include +infinity
-                'phytochemical':   {'O/C': [-1,1.15],    'H/C': [-1,1.32],    'N/C': [-1,0.2]      },
-                'amino_sugar':     {'O/C': [0.61,50],    'H/C': [1.45,50],    'N/C': [0.07,0.2]    }, #a third item to indicate that this class contains N (put N/C ratio)
-                'peptide1':        {'O/C': [0.12,0.6],   'H/C': [0.9,2.5],    'N/C': [0.126,0.7]   },
-                'peptide2':        {'O/C': [0.6,1],      'H/C': [1.2,2.5],    'N/C': [0.2,0.7]     },
+columns_3d = ['O/C','H/C','N/C']
+
+# van Krevelen diagram regions from Rivas-Ubach et al. 2018
+rivasubach_areas_complete = {
+                'lipid':           {'O/C': [-np.inf,0.6],   'H/C': [1.32,np.inf],   'N/C': [-np.inf,0.126], 'P/C': [-np.inf,0.35],    'N/P': [-np.inf,5],   },
+                'peptide1':        {'O/C': [0.12,0.6],      'H/C': [0.9,2.5],       'N/C': [0.126,0.7],     'P/C': [-np.inf,0.17],    'N/P': None,          },
+                'peptide2':        {'O/C': [0.6,1],         'H/C': [1.2,2.5],       'N/C': [0.2,0.7],       'P/C': [-np.inf,0.17],    'N/P': None,          },
+                'amino_sugar':     {'O/C': [0.61,np.inf],   'H/C': [1.45,np.inf],   'N/C': [0.07,0.2],      'P/C': [-np.inf,0.3],     'N/P': [-np.inf,2],   },
+                'carbohydrate':    {'O/C': [0.8,np.inf],    'H/C': [1.65,2.7],      'N/C': [0,0],           'P/C': None,              'N/P': None,          },
+                'phytochemical':   {'O/C': [-np.inf,1.15],  'H/C': [-np.inf,1.32],  'N/C': [-np.inf,0.2],   'P/C': [-np.inf,0.2],     'N/P': [-np.inf,3],   },
 }
 
-# laszakovits_mackay_areas = { # van Krevelen diagram regions from Laszakovits and MacKay 2022
-#                 'amino_sugar':     {'O/C': [0.5,0.91],   'H/C': [1.69,2.33],   },
-#                 'carbohydrate':    {'O/C': [0.55,1.17],  'H/C': [1.43,2]       },
-#                 'peptide':         {'O/C': [0.09,0.75],  'H/C': [0.91,2]       },
-#                 'lipid':           {'O/C': [0.02,0.37],  'H/C': [1.16,2.33]    },
-#                 'lignin':          {'O/C': [0.11,0.42],  'H/C': [0.77,1.33]    },
-#                 'tannin':          {'O/C': [0.13,0.81],  'H/C': [0.68,1.18]    },
-# }
+# Subset of Rivas-Ubach regions for 3D space (O/C, H/C, N/C)
+rivasubach_areas = {x:{y:rivasubach_areas_complete[x][y] for y in rivasubach_areas_complete[x] if y in columns_3d} for x in rivasubach_areas_complete}
 
-laszakovits_mackay_areas = { # van Krevelen diagram regions from Laszakovits and MacKay 2022
-                'amino_sugar':     {'O/C': [0.56,0.95],  'H/C': [1.62,2.35],   },
+# van Krevelen diagram regions from Laszakovits and MacKay 2022
+laszakovits_mackay_areas = {
+                'amino_sugar':     {'O/C': [0.56,0.95],  'H/C': [1.62,2.35]    },
                 'carbohydrate':    {'O/C': [0.56,1.23],  'H/C': [1.53,2.2]     },
-                'peptide':         {'O/C': [0.17,0.48],  'H/C': [1.33,1.84]    },
-                'lipid':           {'O/C': [0.01,0.35],  'H/C': [1.34,2.18]    },
                 'lignin':          {'O/C': [0.21,0.44],  'H/C': [0.86,1.34]    },
+                'lipid':           {'O/C': [0.01,0.35],  'H/C': [1.34,2.18]    },
+                'peptide':         {'O/C': [0.17,0.48],  'H/C': [1.33,1.84]    },
                 'tannin':          {'O/C': [0.16,0.84],  'H/C': [0.7,1.01]     },
 }
 
-# adjust Rivas-Ubach et al. 2018 categories to match the categories in our dataset by replacing 'phytochemical' with 'lignin' and 'tannin' based on O/C and H/C ratios from Laszakovits and MacKay 2022
-ru_lm_areas = {x:rivasubach_areas[x] for x in rivasubach_areas if x != 'phytochemical'}
-for cat in ['lignin','tannin']:
-    ru_lm_areas[cat] = laszakovits_mackay_areas[cat]
-    ru_lm_areas[cat]['N/C'] = rivasubach_areas['phytochemical']['N/C']
+# Adjust Rivas-Ubach et al. 2018 categories to match our dataset by
+# replacing 'phytochemical' with 'lignin' and 'tannin' using O/C and H/C
+# bounds from Laszakovits and MacKay 2022.
+
+def adjust_ru_areas(ru_area):
+    """
+    Replace phytochemical region with lignin/tannin in Rivas-Ubach definitions.
+    
+    Takes the Rivas-Ubach et al. (2018) van Krevelen region definitions and
+    replaces the 'phytochemical' category with separate 'lignin' and 'tannin'
+    regions using O/C and H/C boundaries from Laszakovits & MacKay (2022).
+    Other dimensions (N/C, P/C, N/P) are inherited from the original
+    phytochemical region definition.
+    
+    Parameters
+    ----------
+    ru_area : dict
+        Dictionary mapping molecular class names to their region boundaries.
+        Each class maps to a dict of dimension names (e.g., 'O/C', 'H/C') to
+        [min, max] ranges or None.
+    
+    Returns
+    -------
+    dict
+        Modified region definitions with 'phytochemical' removed and 'lignin'
+        and 'tannin' added as separate categories.
+    
+    Notes
+    -----
+    This function enables using the more chemically-specific lignin/tannin
+    categories instead of the broader phytochemical category, while maintaining
+    compatibility with the R-U region framework.
+    """
+    adjusted_area = {x:ru_area[x] for x in ru_area if x != 'phytochemical'}
+    ru_dims = list(ru_area['phytochemical'].keys())
+    for cat in ['lignin','tannin']:
+        adjusted_area[cat] = laszakovits_mackay_areas[cat].copy()
+
+        for dim in ru_dims:
+            if dim not in adjusted_area[cat].keys():
+                adjusted_area[cat][dim] = ru_area['phytochemical'][dim]
+
+    return adjusted_area
+
+# Adjusted RU regions compatible with the dataset categories
+ru_lm_areas_complete = adjust_ru_areas(rivasubach_areas_complete)
+ru_lm_areas = adjust_ru_areas(rivasubach_areas)
 
 # Functions -------------------------------------------------------------------------------------------
 
-def set_axis_ticks(data,ax,axis:str='y',major_ticks_interval=0.1,minor_ticks_interval=0.05,rounding=2,
-                   lower_lim=None,upper_lim=None):
+def set_axis_ticks(data, ax, axis: str = 'y', major_ticks_interval=0.1, minor_ticks_interval=0.05, rounding=2,
+                   lower_lim=None, upper_lim=None):
+    """
+    Set axis limits and ticks with automatic bounds calculation and sensible rounding.
+    
+    Automatically determines appropriate axis limits based on data range, with
+    optional override. Applies major and minor ticks at specified intervals.
+    Works with standard 2D plots (x, y axes) and 3D plots (x, y, z axes).
+    
+    Parameters
+    ----------
+    data : array-like, dict, or pd.DataFrame
+        Data values used to determine axis limits. If dict or DataFrame,
+        values are extracted automatically.
+    ax : matplotlib.axes.Axes
+        The axes object to modify.
+    axis : {'x', 'y', 'z'}, default 'y'
+        Which axis to configure.
+    major_ticks_interval : float, default 0.1
+        Spacing between major tick marks.
+    minor_ticks_interval : float or None, default 0.05
+        Spacing between minor tick marks. If None, minor ticks are not set.
+    rounding : int, default 2
+        Decimal places for rounding axis limits.
+    lower_lim : float or None, optional
+        Manual override for lower axis limit. If None, computed from data.
+    upper_lim : float or None, optional
+        Manual override for upper axis limit. If None, computed from data.
+    """
     import matplotlib as mpl
 
-    if type(data) in [dict,pd.DataFrame]: data = data.values()
+    # Allow dicts/DataFrames to be passed directly
+    if type(data) in [dict, pd.DataFrame]:
+        data = data.values()
 
     lim = (lower_lim if lower_lim is not None else np.round(np.floor(10**rounding*np.min(list(data)))/10**rounding,rounding)-10**-rounding,
            upper_lim if upper_lim is not None else np.round(np.ceil(10**rounding*np.max(list(data)))/10**rounding,rounding)+10**-rounding)
     
+    # Pick the correct axis setters
     if axis == 'y':
         set_axislim = ax.set_ylim
         set_axisticks = ax.set_yticks
@@ -101,6 +187,7 @@ def set_axis_ticks(data,ax,axis:str='y',major_ticks_interval=0.1,minor_ticks_int
         set_axisticks = ax.set_zticks
         minor_ticks = ax.zaxis.set_minor_locator
 
+    # Apply limits and ticks
     set_axislim(lim)
     set_axisticks(np.arange(np.round(np.floor(1e2*lim[0])/1e2,1),lim[1]+0.01, major_ticks_interval))
 
@@ -108,7 +195,38 @@ def set_axis_ticks(data,ax,axis:str='y',major_ticks_interval=0.1,minor_ticks_int
     if minor_ticks_interval is not None: minor_ticks(mpl.ticker.MultipleLocator(minor_ticks_interval))
 
 
-def knn_pipeline(KNeighborsClassifier_parameters,calibrated=True):
+def knn_pipeline(KNeighborsClassifier_parameters, calibrated=True):
+    """
+    Build a K-Nearest Neighbors classifier pipeline with preprocessing.
+    
+    Creates a scikit-learn pipeline that includes:
+    1. StandardScaler for feature normalization
+    2. KNeighborsClassifier with specified parameters
+    3. Optional CalibratedClassifierCV wrapper for probability calibration
+    
+    Parameters
+    ----------
+    KNeighborsClassifier_parameters : dict
+        Parameters to pass to KNeighborsClassifier constructor.
+        Common parameters include:
+        - n_neighbors : int, number of neighbors to use
+        - weights : {'uniform', 'distance'}, weight function
+        - metric : str, distance metric (default 'minkowski')
+    calibrated : bool, default True
+        If True, wraps KNN in CalibratedClassifierCV to improve probability
+        estimates using cross-validation.
+    
+    Returns
+    -------
+    sklearn.pipeline.Pipeline
+        A fitted pipeline ready for training with .fit(X, y).
+    
+    Notes
+    -----
+    StandardScaler is essential for KNN as it's a distance-based algorithm
+    sensitive to feature scales. Calibration improves probability estimates
+    which are useful for decision boundary visualization.
+    """
     from sklearn.neighbors import KNeighborsClassifier
     from sklearn.pipeline import Pipeline
     from sklearn.preprocessing import StandardScaler
@@ -121,7 +239,43 @@ def knn_pipeline(KNeighborsClassifier_parameters,calibrated=True):
     return Pipeline(steps=[("scaler", StandardScaler()), ("knn", knn_clf)])
 
 
-def train_test(X, y,train_size=0.8,weighted_yn=weighted,random_state=5):
+def train_test(X, y, train_size=0.8, weighted_yn=weighted, random_state=None):
+    """
+    Split data into train/test sets with optional class weight computation.
+    
+    Performs stratified train-test split and optionally computes balanced
+    class weights for both splits. Weights are useful for handling class
+    imbalance in training and evaluation metrics.
+    
+    Parameters
+    ----------
+    X : array-like of shape (n_samples, n_features)
+        Feature matrix.
+    y : array-like of shape (n_samples,)
+        Target class labels.
+    train_size : float, default 0.8
+        Proportion of dataset to include in training split (0.0 to 1.0).
+    weighted_yn : bool, default weighted (global variable)
+        If True, compute balanced class weights for both train and test sets.
+        Weights are inversely proportional to class frequencies.
+    random_state : int or None, optional
+        Random seed for reproducible splits. If None, split is random.
+    
+    Returns
+    -------
+    X_train : ndarray of shape (n_train_samples, n_features)
+        Training features.
+    X_test : ndarray of shape (n_test_samples, n_features)
+        Test features.
+    y_train : ndarray of shape (n_train_samples,)
+        Training labels.
+    y_test : ndarray of shape (n_test_samples,)
+        Test labels.
+    weights_train : ndarray of shape (n_train_samples,) or None
+        Sample weights for training set. None if weighted_yn is False.
+    weights_test : ndarray of shape (n_test_samples,) or None
+        Sample weights for test set. None if weighted_yn is False.
+    """
 
     from sklearn.model_selection import train_test_split
     from sklearn.utils.class_weight import compute_class_weight
@@ -130,6 +284,7 @@ def train_test(X, y,train_size=0.8,weighted_yn=weighted,random_state=5):
     X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=train_size, random_state=random_state)
 
     if weighted_yn:
+        # Compute balanced weights for each split to handle class imbalance
         class_weights_train = compute_class_weight('balanced', classes=np.unique(y_train), y=y_train)
         class_weights_test = compute_class_weight('balanced', classes=np.unique(y_test), y=y_test)
 
@@ -146,38 +301,129 @@ def train_test(X, y,train_size=0.8,weighted_yn=weighted,random_state=5):
     return X_train, X_test, y_train, y_test, weights_train, weights_test
 
 
-def molecclass(df:pd.DataFrame,areas:dict,dims=['O/C','H/C','N/C']) ->  np.ndarray:
+def molecclass(df: pd.DataFrame, areas: dict, dims=columns_3d) -> np.ndarray:
+    """
+    Assign molecular classes based on van Krevelen region boundaries.
+    
+    Classifies compounds by checking if their elemental ratios
+    fall within predefined van Krevelen diagram regions. Each compound is
+    assigned to the first matching region. Compounds outside all regions are
+    labeled 'unassigned'.
+    
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame containing elemental ratio columns. Must include all
+        dimensions specified in 'dims' parameter.
+    areas : dict
+        Dictionary mapping molecular class names to region boundaries.
+        Structure: {class_name: {dimension: [min, max] or None, ...}}
+        Example: {'lipid': {'O/C': [0, 0.6], 'H/C': [1.32, np.inf], ...}}
+        Dimensions with None are ignored for that class.
+    dims : list of str, default columns_3d (['O/C', 'H/C', 'N/C'])
+        Column names representing dimensions to check. Must be present in df.
+    
+    Returns
+    -------
+    np.ndarray of shape (n_samples,)
+        Array of assigned class labels. One label per row in df.
+        Labels match keys in 'areas' dict, or 'unassigned' for no match.
+    
+    Notes
+    -----
+    - Classification order matters: first matching region wins
+    - Special handling: 'peptide1' and 'peptide2' are merged to 'peptide'
+    - Boundaries are inclusive: min <= value <= max
+    - Multi-dimensional: ALL specified dimensions must fall within bounds
+    """
 
-    assignments = ['unassigned'] * len(df)
+    df_copy = df.copy()
+    df_copy.reset_index(drop=True, inplace=True)
 
-    for i in df[dims].index:
-        ratios = df[dims].loc[i]
+    assignments = ['unassigned'] * len(df_copy)
+
+    for i in df_copy[dims].index:
+        ratios = df_copy[dims].loc[i]
 
         for a in areas:
             counter = 0
 
-            for d in dims:
+            # Check each dimension against class boundaries
+            notNone_dims = [dim for dim in dims if areas[a][dim] is not None]
+            for d in notNone_dims:
                 if ratios[d] >= np.min(areas[a][d]) and ratios[d] <= np.max(areas[a][d]):
                     counter += 1
-        
-            if counter == len(dims):
+
+            if counter == len(notNone_dims):
                 assignments[i] = a
                 break
     
     assignments = np.array(assignments)
-    assignments[np.where(assignments == 'peptide1')] = 'peptide'
-    assignments[np.where(assignments == 'peptide2')] = 'peptide'
+    # Merge peptide sub-classes into a single label
+    assignments[[a in ['peptide1','peptide2'] for a in assignments]] = 'peptide'
 
     return assignments
 
 
 def draw_decision_boundary_plot(estimator, X, categories, xlabel=None, ylabel=None, title=None, savepath=None,
-                                level_step=0.1,grid_resolution=500,colors_dict=None,xlim=(0,2.5),ylim=(0,2.5)):
+                                level_step=0.1, grid_resolution=500, colors_dict=None, xlim=(0, 2.5), ylim=(0, 2.5)):
+    """
+    Plot calibrated decision boundaries for 2D feature spaces with probability contours.
+    
+    Creates a contour plot showing class prediction probabilities across a 2D
+    feature space. Uses a trained classifier's predict_proba method to visualize
+    decision boundaries. Optionally displays probability levels as contour lines.
+    
+    Parameters
+    ----------
+    estimator : sklearn estimator
+        Trained classifier with predict_proba method (e.g., calibrated KNN, SVM).
+    X : array-like of shape (n_samples, 2)
+        2D feature data used to determine plot bounds.
+    categories : array-like of str
+        Ordered list of class names matching estimator's classes_.
+    xlabel : str, optional
+        Label for x-axis (e.g., 'O/C').
+    ylabel : str, optional
+        Label for y-axis (e.g., 'H/C').
+    title : str, optional
+        Plot title.
+    savepath : str, optional
+        File path to save figure (e.g., 'output/plot.png').
+        If None, figure is not saved.
+    level_step : float or None, default 0.1
+        Probability interval between contour levels (0.0 to 1.0).
+        If None, no contour lines are drawn.
+    grid_resolution : int, default 500
+        Number of grid points per axis for boundary resolution.
+        Higher values give smoother boundaries but slower plotting.
+    colors_dict : dict, optional
+        Mapping of category names to color codes.
+        Example: {'lipid': '#F5C308', 'peptide': '#BD3A53'}
+    xlim : tuple of float, default (0, 2.5)
+        X-axis limits as (min, max).
+    ylim : tuple of float, default (0, 2.5)
+        Y-axis limits as (min, max).
+    
+    Returns
+    -------
+    fig : plt.Figure
+        The figure object.
+    ax : plt.Axes
+        The axes object.
+    
+    Notes
+    -----
+    - Requires estimator to have predict_proba method (use calibration if needed)
+    - Legend shows both class colors and probability level indicators
+    - Figure is saved at 600 DPI with white background
+    """
     from sklearn.inspection import DecisionBoundaryDisplay
 
     fig, ax = plt.subplots()
 
-    levels = np.arange(0, 1 + level_step, level_step) if level_step else None # levels for contour plots
+    # Levels for contour plots (probability thresholds)
+    levels = np.arange(0, 1 + level_step, level_step) if level_step else None
 
     disp = DecisionBoundaryDisplay.from_estimator(
         estimator,
@@ -193,6 +439,7 @@ def draw_decision_boundary_plot(estimator, X, categories, xlabel=None, ylabel=No
     # for cs in disp.surface_:
     #     plt.clabel(cs, inline=False, fontsize=8,colors='#666')
 
+    # Build a clean legend with category names
     for cat in categories:
         cat_mod = cat.replace('_',' ').capitalize() + '-like'
         if 'Pah' in cat_mod:
@@ -219,15 +466,82 @@ def draw_decision_boundary_plot(estimator, X, categories, xlabel=None, ylabel=No
     return fig, ax
 
 
-def load_pickle_model(filepath:str):
+def load_pickle_model(filepath: str):
+    """
+    Load a serialized scikit-learn model from a pickle file.
+    
+    Parameters
+    ----------
+    filepath : str
+        Path to the .pkl file containing the serialized model.
+        Can be absolute or relative path.
+    
+    Returns
+    -------
+    object
+        The deserialized scikit-learn estimator or pipeline.
+        Type depends on what was originally saved.
+    
+    Notes
+    -----
+    - Pickle files can pose security risks if from untrusted sources
+    - Ensure scikit-learn version compatibility between save and load
+    """
     from pickle import load
     with open(filepath, "rb") as f:
         clf = load(f)
     return clf
 
 
-def draw_boxplot(data_dict, ylabel, title=None, savepath=None,colours=[],hline=None,#ylim=None,
-                 xlabel_rotation=45,ha='right',figsize=None):
+def draw_boxplot(data_dict, ylabel, title=None, savepath=None, colours=[], hline=None, # ylim=None,
+                 xlabel_rotation=45, ha='right', figsize=None):
+    """
+    Create a customizable boxplot with optional colors and reference lines.
+    
+    Generates a matplotlib boxplot from dictionary data with support for
+    custom box colors, horizontal reference lines, rotated labels, and
+    automatic saving.
+    
+    Parameters
+    ----------
+    data_dict : dict
+        Dictionary mapping category names (keys) to data arrays (values).
+        Each key becomes an x-axis label, each value is plotted as a box.
+        Example: {'Class A': [1, 2, 3], 'Class B': [2, 3, 4]}
+    ylabel : str
+        Label for y-axis.
+    title : str, optional
+        Plot title.
+    savepath : str, optional
+        File path to save figure. If None, figure is not saved.
+    colours : list of str, default []
+        Color codes for box faces. If single color provided, applied to all.
+        If multiple colors, must match number of boxes.
+        If empty list, default matplotlib colors are used.
+    hline : float, list, or tuple, optional
+        Y-coordinate(s) for horizontal reference line(s).
+        Single value or sequence of values. Lines drawn in red dashed style.
+    xlabel_rotation : float, default 45
+        Rotation angle for x-axis labels in degrees.
+    ha : {'left', 'center', 'right'}, default 'right'
+        Horizontal alignment for x-axis labels.
+    figsize : tuple of float, optional
+        Figure size as (width, height) in inches.
+        If None, uses matplotlib default.
+    
+    Returns
+    -------
+    fig : plt.Figure
+        The figure object.
+    ax : plt.Axes
+        The axes object.
+    
+    Notes
+    -----
+    - Medians are shown as black solid lines
+    - Outliers are displayed by default
+    - Figure is saved at 600 DPI with white background if savepath provided
+    """
     fig, ax = plt.subplots(figsize=figsize)
 
     labels = list(data_dict.keys())
@@ -242,6 +556,7 @@ def draw_boxplot(data_dict, ylabel, title=None, savepath=None,colours=[],hline=N
 
     ax.set_ylabel(ylabel, fontsize=axis_label_size)
     
+    # Apply custom box colors if provided
     if len(colours)>0:
         if len(colours)==1:
             colours = colours * len(labels)
@@ -249,6 +564,7 @@ def draw_boxplot(data_dict, ylabel, title=None, savepath=None,colours=[],hline=N
         for patch, colour in zip(bplot['boxes'], colours):
             patch.set_facecolor(colour)
 
+    # Optional horizontal reference line(s)
     if hline:
         if type(hline) in [list, tuple]:
             for hl in hline:
