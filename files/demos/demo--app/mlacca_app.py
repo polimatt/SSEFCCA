@@ -1,3 +1,4 @@
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -5,6 +6,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.backend_bases import key_press_handler
 import plotly.graph_objects as go
 import os
+import sys
 from sklearn.calibration import CalibratedClassifierCV
 import pickle as pkl
 
@@ -29,8 +31,6 @@ models_paths = [x for x in os.listdir(models_dir) if x.endswith('.pkl')]
 model_dict = {x:y for x, y in zip([x.replace('.pkl','') for x in models_paths],models_paths)}
 
 model_chosen = tk.StringVar(root)
-default_model = [x for x in list(model_dict.keys()) if 'RBF' in x][0]
-# model_chosen.set(list(model_dict.keys())[0])
 
 plot_2DvK_bool = tk.BooleanVar()
 
@@ -181,7 +181,7 @@ def open2DvKwindow(dfs):
         canvas.get_tk_widget().grid(column=0,row=2,columnspan=5,pady=(10,0))
         toolbar.grid(column=0,row=3,columnspan=5)
 
-    optionmenu_file = ttk.OptionMenu(twoDvK_window, file_chosen, *list(dfs.keys()))
+    optionmenu_file = ttk.OptionMenu(twoDvK_window, file_chosen, *[list(dfs.keys())[0]]+list(dfs.keys())) # the way the starred expression is used here is necessary as otherwise the first option will disappear from the drop-down menu when another option is selected... go figure
     button_plot = ttk.Button(twoDvK_window, text='Plot', command=plot_2DvK)
 
     optionmenu_file.grid(column=3,row=0,padx=w2_width/2,pady=10)
@@ -255,7 +255,11 @@ button_data_explore = ttk.Button(root,
                              text = "Browse Data Folder",
                              command = browsedatadir)
 
-optionmenu_model = ttk.OptionMenu(root, model_chosen, *list(model_dict.keys()))
+models_list = list(model_dict.keys())
+default_model = [x for x in models_list if 'Poly' in x][0]
+idx = models_list.index(default_model)
+models_list = [models_list[idx]]+models_list[:idx]+models_list[idx+1:]
+optionmenu_model = ttk.OptionMenu(root, model_chosen, *[models_list[0]]+models_list) # the way the starred expression is used here is necessary as otherwise the first option will disappear from the drop-down menu when another option is selected... go figure
 
 label_output_file_explorer = tk.Label(root,
                                    text = output_string,

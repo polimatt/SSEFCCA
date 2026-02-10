@@ -365,6 +365,36 @@ def molecclass(df: pd.DataFrame, areas: dict, dims=columns_3d) -> np.ndarray:
     return assignments
 
 
+def class_wise_accuracy(y_true:np.ndarray|list, y_pred:np.ndarray|list) -> dict:
+    from sklearn.metrics import accuracy_score
+    """
+    Calculate class-wise accuracy for a multi-class classification problem.
+    
+    Parameters:
+    -----------
+    y_true : np.ndarray | list
+        True class labels
+    y_pred : np.ndarray | list
+        Predicted class labels
+    
+    Returns:
+    --------
+    dict : Dictionary with class labels as keys and their corresponding accuracies as values
+    """
+    accuracy_dict = {}
+    if type(y_true) == list:
+        y_true = np.array(y_true)
+    if type(y_pred) == list:
+        y_pred = np.array(y_pred)
+    
+    for class_ in np.unique(y_true):
+        idx = np.where(y_true == class_)[0]
+        cls_accuracy = accuracy_score(y_true[idx], y_pred[idx])
+        accuracy_dict[class_] = cls_accuracy
+
+    return accuracy_dict
+
+
 def draw_decision_boundary_plot(estimator, X, categories, xlabel=None, ylabel=None, title=None, savepath=None,
                                 level_step=0.1, grid_resolution=500, colors_dict=None, xlim=(0, 2.5), ylim=(0, 2.5)):
     """
