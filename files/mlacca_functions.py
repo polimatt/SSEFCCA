@@ -2,10 +2,9 @@
 
 # Shared utilities and constants for MLACCA notebooks.
 
-# This module centralizes reusable plotting helpers, model utilities, and
+# This module centralises reusable plotting helpers, model utilities, and
 # van Krevelen region definitions so that multiple notebooks can share the
 # same logic and settings.
-
 
 import numpy as np
 import pandas as pd
@@ -135,7 +134,7 @@ ru_lm_areas = adjust_ru_areas(rivasubach_areas)
 
 # Functions -------------------------------------------------------------------------------------------
 
-def set_axis_ticks(data, ax, axis: str = 'y', major_ticks_interval=0.1, minor_ticks_interval=0.05, rounding=2,
+def set_axis_ticks(data, ax, axis:str='y', major_ticks_interval=0.1, minor_ticks_interval=0.05, rounding=2,
                    lower_lim=None, upper_lim=None):
     """
     Set axis limits and ticks with automatic bounds calculation and sensible rounding.
