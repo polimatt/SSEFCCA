@@ -38,22 +38,23 @@ vk_region_colours = {
 }
 
 # KNN hyperparameters
-knn_param_2d = dict(n_neighbors=50, weights='distance')
 knn_param_3d = dict(n_neighbors=10, weights='distance')
-knn_param_2d_with_PAHs = dict(n_neighbors=10, weights='distance')
 knn_param_3d_with_PAHs = dict(n_neighbors=10, weights='distance')
 
 # SVM (RBF) hyperparameters
-svm_rbf_param_2d = dict(C=100, gamma='auto') # chosen SVC RBF kernel parameters after optimisation
-svm_rbf_param_3d = dict(C=100, gamma='auto')
-svm_rbf_param_2d_with_PAHs = dict(C=100, gamma='auto')
-svm_rbf_param_3d_with_PAHs = dict(C=100, gamma='auto')
+svm_rbf_param_3d = dict(C=1, gamma=0.1)
+svm_rbf_param_3d_with_PAHs = dict(C=1, gamma=0.1)
 
 # SVM (polynomial) hyperparameters
-svm_poly_param_2d = dict(C=10, degree=1, gamma=1) # chosen SVC polynomial kernel parameters after optimisation
-svm_poly_param_3d = dict(C=100, degree=5, gamma='auto')
-svm_poly_param_2d_with_PAHs = dict(C=10, degree=2, gamma='auto')
-svm_poly_param_3d_with_PAHs = dict(C=10, degree=5, gamma='auto')
+svm_poly_param_3d = dict(C=10, degree=1, gamma=0.1)
+svm_poly_param_3d_with_PAHs = dict(C=1, degree=1, gamma=0.1)
+
+# knn_param_2d = dict(n_neighbors=50, weights='distance')
+# knn_param_2d_with_PAHs = dict(n_neighbors=10, weights='distance')
+# svm_rbf_param_2d = dict(C=100, gamma='auto')
+# svm_rbf_param_2d_with_PAHs = dict(C=100, gamma='auto')
+# svm_poly_param_2d = dict(C=10, degree=1, gamma=1)
+# svm_poly_param_2d_with_PAHs = dict(C=10, degree=2, gamma='auto')
 
 
 # van Krevelen diagram regions definitions --------------------------------------------------------
@@ -194,25 +195,21 @@ def set_axis_ticks(data, ax, axis:str='y', major_ticks_interval=0.1, minor_ticks
     if minor_ticks_interval is not None: minor_ticks(mpl.ticker.MultipleLocator(minor_ticks_interval))
 
 
-def knn_pipeline(KNeighborsClassifier_parameters, calibrated=True):
+def clf_pipeline(clf, calibrated=True):
     """
-    Build a K-Nearest Neighbors classifier pipeline with preprocessing.
+    Build a classifier pipeline with preprocessing.
     
     Creates a scikit-learn pipeline that includes:
     1. StandardScaler for feature normalization
-    2. KNeighborsClassifier with specified parameters
+    2. Classifier with specified parameters
     3. Optional CalibratedClassifierCV wrapper for probability calibration
     
     Parameters
     ----------
-    KNeighborsClassifier_parameters : dict
-        Parameters to pass to KNeighborsClassifier constructor.
-        Common parameters include:
-        - n_neighbors : int, number of neighbors to use
-        - weights : {'uniform', 'distance'}, weight function
-        - metric : str, distance metric (default 'minkowski')
+    clf
+        SKL classifier .
     calibrated : bool, default True
-        If True, wraps KNN in CalibratedClassifierCV to improve probability
+        If True, wraps clf in CalibratedClassifierCV to improve probability
         estimates using cross-validation.
     
     Returns
@@ -222,21 +219,24 @@ def knn_pipeline(KNeighborsClassifier_parameters, calibrated=True):
     
     Notes
     -----
-    StandardScaler is essential for KNN as it's a distance-based algorithm
+    StandardScaler is essential for distance-based algorithms
     sensitive to feature scales. Calibration improves probability estimates
     which are useful for decision boundary visualization.
     """
-    from sklearn.neighbors import KNeighborsClassifier
     from sklearn.pipeline import Pipeline
     from sklearn.preprocessing import StandardScaler
+    from sklearn.calibration import CalibratedClassifierCV
 
-    knn_clf = KNeighborsClassifier(**KNeighborsClassifier_parameters)
-    if calibrated:
-        from sklearn.calibration import CalibratedClassifierCV
-        knn_clf = CalibratedClassifierCV(knn_clf)
+    return Pipeline(steps=[("scaler", StandardScaler()),
+                           ("clf", CalibratedClassifierCV(clf) if calibrated else clf)])
 
-    return Pipeline(steps=[("scaler", StandardScaler()), ("knn", knn_clf)])
 
+def get_weights_array(y):
+    from sklearn.utils.class_weight import compute_class_weight
+    class_weights = compute_class_weight('balanced', classes=np.unique(y), y=y)
+    weights_dict = {cls: weight for cls, weight in zip(np.unique(y), class_weights)}
+    weights_arr = np.array([weights_dict[cat] for cat in y])
+    return weights_arr
 
 def train_test(X, y, train_size=0.8, weighted_yn=weighted, random_state=None):
     """
@@ -284,14 +284,8 @@ def train_test(X, y, train_size=0.8, weighted_yn=weighted, random_state=None):
 
     if weighted_yn:
         # Compute balanced weights for each split to handle class imbalance
-        class_weights_train = compute_class_weight('balanced', classes=np.unique(y_train), y=y_train)
-        class_weights_test = compute_class_weight('balanced', classes=np.unique(y_test), y=y_test)
-
-        weights_dict_train = {cls: weight for cls, weight in zip(np.unique(y_train), class_weights_train)}
-        weights_dict_test = {cls: weight for cls, weight in zip(np.unique(y_test), class_weights_test)}
-
-        weights_train = np.array([weights_dict_train[cat] for cat in y_train])
-        weights_test = np.array([weights_dict_test[cat] for cat in y_test])
+        weights_train = get_weights_array(y_train)
+        weights_test = get_weights_array(y_test)
     
     else:
         weights_train = None
