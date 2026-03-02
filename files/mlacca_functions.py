@@ -49,13 +49,6 @@ svm_rbf_param_3d_with_PAHs = dict(C=1, gamma=0.1)
 svm_poly_param_3d = dict(C=10, degree=1, gamma=0.1)
 svm_poly_param_3d_with_PAHs = dict(C=1, degree=1, gamma=0.1)
 
-# knn_param_2d = dict(n_neighbors=50, weights='distance')
-# knn_param_2d_with_PAHs = dict(n_neighbors=10, weights='distance')
-# svm_rbf_param_2d = dict(C=100, gamma='auto')
-# svm_rbf_param_2d_with_PAHs = dict(C=100, gamma='auto')
-# svm_poly_param_2d = dict(C=10, degree=1, gamma=1)
-# svm_poly_param_2d_with_PAHs = dict(C=10, degree=2, gamma='auto')
-
 
 # van Krevelen diagram regions definitions --------------------------------------------------------
 # Default dimensionality for 3D van Krevelen space
@@ -599,3 +592,14 @@ def draw_boxplot(data_dict, ylabel, title=None, savepath=None, colours=[], hline
     if savepath: fig.savefig(savepath, dpi=600, facecolor='#fff', bbox_inches='tight')
 
     return fig, ax
+
+
+def Shannon_diversity_index(labels:np.ndarray|pd.Series|list) -> float:
+    label_copy = labels if isinstance(labels,np.ndarray) else np.array(labels)
+
+    counts = [len([y for y in label_copy==x if y]) for x in np.unique(label_copy)]
+
+    counts_sum = len(label_copy)
+    P = [c/counts_sum for c in counts]
+
+    return -np.sum([p_i * np.log(p_i) for p_i in P])
