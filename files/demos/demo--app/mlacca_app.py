@@ -15,14 +15,14 @@ from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
 
-icon_path = 'files_for_app\\mlacca.ico'
+icon_path = 'files_for_app/mlacca.ico'
 
 root = tk.Tk()
 root.title('MLACCA') #Machine Learning Assisted Compound Class Assignment
 root.geometry(f"1000x400")
 root.iconbitmap(icon_path)
 
-models_dir_txt = '.\\files_for_app\\models_dir.txt'
+models_dir_txt = './files_for_app/models_dir.txt'
 f = open(models_dir_txt)
 models_dir = f.readline()
 f.close() 
@@ -114,7 +114,7 @@ def run_script():
     try: output_dir is None
     except NameError: messagebox.showerror('Error','Please provide a path to save the outputs in')
 
-    with open(f'{models_dir}\\{model_dict[model_chosen.get()]}', "rb") as f:
+    with open(f'{models_dir}/{model_dict[model_chosen.get()]}', "rb") as f:
         model = pkl.load(f)
 
     files_list = [x for x in os.listdir(data_dir) if x.endswith('.csv')]
@@ -122,16 +122,16 @@ def run_script():
     if plot_2DvK_bool.get(): dfs = dict()
 
     for file in files_list:
-        file_path = f'{data_dir}\\{file}'
+        file_path = f'{data_dir}/{file}'
         data_df = pd.read_csv(file_path)
         data_df = compound_classification(data_df,model,molec_form_column=formulacolumn.get())
-        data_df.to_csv(f'{output_dir}\\{file}')
+        data_df.to_csv(f'{output_dir}/{file}')
 
         if plot_2DvK_bool.get(): dfs[file.replace('.csv','')]=data_df
 
         try:
             if threeDvK_dir:
-                save_3D_vK(data_df,file.replace('.csv',''),f'{threeDvK_dir}\\{file.replace('.csv','.html')}')
+                save_3D_vK(data_df,file.replace('.csv',''),f'{threeDvK_dir}/{file.replace('.csv','.html')}')
         except: pass
 
     if plot_2DvK_bool.get(): open2DvKwindow(dfs)

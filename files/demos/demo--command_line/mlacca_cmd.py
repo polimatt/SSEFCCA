@@ -14,7 +14,7 @@ parser.add_argument('-ndp','--newdirpath')
 
 args = parser.parse_args()
 
-model_path = '..\\..\\mlacca_outputs\\models\\svm_rbf_with_pahs.pkl' if not args.modelpath else args.modelpath
+model_path = '../../mlacca_outputs/models/svm_rbf_with_pahs.pkl' if not args.modelpath else args.modelpath
 newdirpath = f'{args.dirpath}--predicted' if not args.newdirpath else args.newdirpath
 
 if not os.path.isdir(newdirpath):
@@ -66,7 +66,7 @@ def compound_classification(data_df:pd.DataFrame,model:skl.calibration.Calibrate
 files_list = [x for x in os.listdir(args.dirpath) if x.endswith('.csv')]
 
 for file in files_list:
-    file_path = f'{args.dirpath}\\{file}'
+    file_path = f'{args.dirpath}/{file}'
     data_df = pd.read_csv(file_path)
     data_df = compound_classification(data_df,model)
-    data_df.to_csv(f'{newdirpath}\\{file}')
+    data_df.to_csv(f'{newdirpath}/{file}')

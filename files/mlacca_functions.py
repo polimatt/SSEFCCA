@@ -9,6 +9,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from pickle import load
 
 # Global variables ------------------------------------------------------------------------------------
 # Styling defaults for plots
@@ -37,17 +38,28 @@ vk_region_colours = {
     'unassigned': '#e6e6e6'
 }
 
-# KNN hyperparameters
-knn_param_3d = dict(n_neighbors=10, weights='distance')
-knn_param_3d_with_PAHs = dict(n_neighbors=10, weights='distance')
 
-# SVM (RBF) hyperparameters
-svm_rbf_param_3d = dict(C=1, gamma=0.1)
-svm_rbf_param_3d_with_PAHs = dict(C=1, gamma=0.1)
+hyperparameters_file = 'data/hyperparameters/hyperparameters.pkl'
+try:
+    with open(hyperparameters_file, 'rb') as f:
+        hyperparameters = load(f)
+except FileNotFoundError:
+    import warnings
+    warnings.warn('Hyperparameters file not found.')
+    hyperparameters = None
 
-# SVM (polynomial) hyperparameters
-svm_poly_param_3d = dict(C=10, degree=1, gamma=0.1)
-svm_poly_param_3d_with_PAHs = dict(C=1, degree=1, gamma=0.1)
+if hyperparameters is not None:
+    # KNN hyperparameters
+    knn_param_3d = hyperparameters['knn_3d']
+    knn_param_3d_with_PAHs = hyperparameters['knn_pahs_3d']
+
+    # SVM (RBF) hyperparameters
+    svm_rbf_param_3d = hyperparameters['rbf_svm_3d']
+    svm_rbf_param_3d_with_PAHs = hyperparameters['rbf_svm_pahs_3d']
+
+    # SVM (polynomial) hyperparameters
+    svm_poly_param_3d = hyperparameters['poly_svm_3d']
+    svm_poly_param_3d_with_PAHs = hyperparameters['poly_svm_pahs_3d']
 
 
 # van Krevelen diagram regions definitions --------------------------------------------------------
@@ -231,7 +243,7 @@ def get_weights_array(y):
     weights_arr = np.array([weights_dict[cat] for cat in y])
     return weights_arr
 
-def train_test(X, y, train_size=0.8, weighted_yn=weighted, random_state=None):
+def train_test(X, y, train_size=0.8, weighted_yn=weighted, random_state=None, stratify_yn=False):
     """
     Split data into train/test sets with optional class weight computation.
     
@@ -270,11 +282,11 @@ def train_test(X, y, train_size=0.8, weighted_yn=weighted, random_state=None):
     """
 
     from sklearn.model_selection import train_test_split
-    from sklearn.utils.class_weight import compute_class_weight
 
     # Split the data into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=train_size, random_state=random_state)
-
+    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=train_size, random_state=random_state,
+                                                        stratify=None if not stratify_yn else y)
+    
     if weighted_yn:
         # Compute balanced weights for each split to handle class imbalance
         weights_train = get_weights_array(y_train)
@@ -480,33 +492,6 @@ def draw_decision_boundary_plot(estimator, X, categories, xlabel=None, ylabel=No
     if savepath: fig.savefig(savepath, dpi = 600, facecolor = '#fff', bbox_inches='tight')
 
     return fig, ax
-
-
-def load_pickle_model(filepath: str):
-    """
-    Load a serialized scikit-learn model from a pickle file.
-    
-    Parameters
-    ----------
-    filepath : str
-        Path to the .pkl file containing the serialized model.
-        Can be absolute or relative path.
-    
-    Returns
-    -------
-    object
-        The deserialized scikit-learn estimator or pipeline.
-        Type depends on what was originally saved.
-    
-    Notes
-    -----
-    - Pickle files can pose security risks if from untrusted sources
-    - Ensure scikit-learn version compatibility between save and load
-    """
-    from pickle import load
-    with open(filepath, "rb") as f:
-        clf = load(f)
-    return clf
 
 
 def draw_boxplot(data_dict, ylabel, title=None, savepath=None, colours=[], hline=None, # ylim=None,
