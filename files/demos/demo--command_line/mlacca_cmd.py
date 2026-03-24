@@ -3,7 +3,8 @@ import numpy as np
 import os
 import argparse
 import pickle as pkl
-import sklearn as skl
+from sklearn.calibration import CalibratedClassifierCV
+from sklearn.pipeline import Pipeline
 
 parser = argparse.ArgumentParser(prog = 'compound_class_prediction.py',
                                  description='script to predict the compound class of empirical formulae contained in CSV files.')
@@ -14,7 +15,7 @@ parser.add_argument('-ndp','--newdirpath')
 
 args = parser.parse_args()
 
-model_path = '../../mlacca_outputs/models/svm_rbf_with_pahs.pkl' if not args.modelpath else args.modelpath
+model_path = '../../data/models/svm_poly.pkl' if not args.modelpath else args.modelpath
 newdirpath = f'{args.dirpath}--predicted' if not args.newdirpath else args.newdirpath
 
 if not os.path.isdir(newdirpath):
@@ -23,12 +24,12 @@ if not os.path.isdir(newdirpath):
 with open(model_path, "rb") as f:
     model = pkl.load(f)
 
-def compound_classification(data_df:pd.DataFrame,model:skl.calibration.CalibratedClassifierCV,
+def compound_classification(data_df:pd.DataFrame,model:CalibratedClassifierCV|Pipeline,
                             molec_form_column = 'Molecular Formula',
                             ratios_needed:list = ['O/C','H/C','N/C'],
                             isotope_pairs:list[list] = [['C','13C'],['H','2H'],['N','15N'],['O','18O'],['S','34S']]) -> pd.DataFrame:
 
-    assert type(model) == skl.calibration.CalibratedClassifierCV, '`model` must be a `skl.calibration.CalibratedClassifierCV`'
+    assert isinstance(model,CalibratedClassifierCV|Pipeline), '`model` must be a `skl.calibration.CalibratedClassifierCV` or `skl.pipeline.Pipeline`'
     assert molec_form_column in data_df.columns, '`molec_form_column` must be the column of the `data_df` dataframe containing the assigned empirical formulae.'
 
     # copy the dataframe into another variable the function will be working on

@@ -1,4 +1,4 @@
-
+from pickle import load
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -6,9 +6,8 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.backend_bases import key_press_handler
 import plotly.graph_objects as go
 import os
-import sys
 from sklearn.calibration import CalibratedClassifierCV
-import pickle as pkl
+from sklearn.pipeline import Pipeline
 
 import tkinter as tk
 from tkinter import ttk
@@ -64,12 +63,12 @@ def browse3DvKdir():
     threeDvK_dir = filedialog.askdirectory()
     label_save3DvK_explorer.configure(text=f'Directory where the 3D van Krevelen diagrams will be saved: {threeDvK_dir}')
 
-def compound_classification(data_df:pd.DataFrame,model:CalibratedClassifierCV,
+def compound_classification(data_df:pd.DataFrame,model:CalibratedClassifierCV|Pipeline,
                             molec_form_column = 'Molecular Formula',
                             ratios_needed:list = ['O/C','H/C','N/C'],
                             isotope_pairs:list[list] = [['C','13C'],['H','2H'],['N','15N'],['O','18O'],['S','34S']]) -> pd.DataFrame:
 
-    assert type(model) == CalibratedClassifierCV, '`model` must be a `skl.calibration.CalibratedClassifierCV`'
+    assert isinstance(model,CalibratedClassifierCV|Pipeline), '`model` must be a `skl.calibration.CalibratedClassifierCV` or `skl.pipeline.Pipeline`'
     assert molec_form_column in data_df.columns, '`molec_form_column` must be the column of the `data_df` dataframe containing the assigned empirical formulae.'
 
     # copy the dataframe into another variable the function will be working on
@@ -114,8 +113,8 @@ def run_script():
     try: output_dir is None
     except NameError: messagebox.showerror('Error','Please provide a path to save the outputs in')
 
-    with open(f'{models_dir}/{model_dict[model_chosen.get()]}', "rb") as f:
-        model = pkl.load(f)
+    with open(f'{models_dir}/{model_dict[model_chosen.get()]}', 'rb') as f:
+        model = load(f)
 
     files_list = [x for x in os.listdir(data_dir) if x.endswith('.csv')]
 
@@ -131,7 +130,7 @@ def run_script():
 
         try:
             if threeDvK_dir:
-                save_3D_vK(data_df,file.replace('.csv',''),f'{threeDvK_dir}/{file.replace('.csv','.html')}')
+                save_3D_vK(data_df,file.replace('.csv',''),f"{threeDvK_dir}/{file.replace('.csv','.html')}")
         except: pass
 
     if plot_2DvK_bool.get(): open2DvKwindow(dfs)
@@ -161,7 +160,7 @@ def open2DvKwindow(dfs):
             ax.scatter(chosen_df[chosen_df['compound_class']==compound_class]['O/C'],
                     chosen_df[chosen_df['compound_class']==compound_class]['H/C'],
                     c=vk_region_colours[compound_class],
-                    label=f'{compound_class.replace('_',' ').capitalize()}-like' if 'pah' not in compound_class else 'PAH-like',
+                    label=f"{compound_class.replace('_',' ').capitalize()}-like" if 'pah' not in compound_class else 'PAH-like',
                     alpha=0.8)
 
         ax.set_xlabel('O/C',fontsize=14)
@@ -199,7 +198,7 @@ def save_3D_vK(df:pd.DataFrame,name:str,savepath:str):
             y = df[df['compound_class'] == compound_class]['H/C'],
             z = df[df['compound_class'] == compound_class]['N/C'],
 
-            name = f'{compound_class.replace('_',' ').capitalize()}-like' if 'pah' not in compound_class else 'PAH-like',
+            name = f"{compound_class.replace('_',' ').capitalize()}-like" if 'pah' not in compound_class else 'PAH-like',
 
             hovertemplate = 'O/C: %{x} <br>' + \
                             'H/C: %{y} <br>' + \
