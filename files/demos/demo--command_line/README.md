@@ -25,8 +25,8 @@ This will then save the outputs into a folder--assigned directory.
 
 To sum up, the commands used in this demo following the creation of a `mlacca` Python environment are:
 
-```bash
-$ conda activate mlacca
-$ python compound_class_prediction.py folder
+```console
+conda activate mlacca
+python compound_class_prediction.py folder
 ```
 
