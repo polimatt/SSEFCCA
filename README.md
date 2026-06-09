@@ -12,7 +12,7 @@ The demos are organised so that end users may benefit from this method (almost) 
 - Finally, in the `files/demo/demo--app` a Python-based GUI application is presented. Here, some IT knowledge is still valuable as the correct Python environment needs to be activated (as in the other cases as well), but the app itself guides the user through the process.
 
 ## Worflow to Generate and Benchmark Models
-1. [`files/create_csvs.ipynb`]: collate all the separate CSV files containing the necessary data into one large dataset file, alongside generating figures summarising dataset properties.
+1. [`files/create_csvs.ipynb`](files/create_csvs.ipynb): collate all the separate CSV files containing the necessary data into one large dataset file, alongside generating figures summarising dataset properties.
 2. `files/hyperparameters_optimisation.ipynb`: optimise the hyperparameters of the supervised classifiers (*k*NN, GNB, polynomial and RBF SVM) on the newly created dataset.
 3. `files/benchmark.ipynb`: benchmark the models against established definitions.
     - `files/compare_ru.ipynb`: for further benchmarking with the [Rivas-Ubach *et al.* (2018)](https://doi.org/10.1021/acs.analchem.8b00529) validation dataset.
