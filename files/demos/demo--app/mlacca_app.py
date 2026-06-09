@@ -95,10 +95,10 @@ def compound_classification(data_df:pd.DataFrame,model:CalibratedClassifierCV|Pi
             
             assigned_df[ratio] = numerator / denominator
     
-    # predict compound classes, their probabilities, and add them as new columns
-    predictions = model.predict(assigned_df[ratios_needed].values)
+    # assign compound classes, their probabilities, and add them as new columns
+    assignments = model.predict(assigned_df[ratios_needed].values)
     max_probabilities = np.max(model.predict_proba(assigned_df[ratios_needed].values),axis=1)
-    assigned_df['compound_class'] = predictions
+    assigned_df['compound_class'] = assignments
     assigned_df['probability'] = max_probabilities
 
     return assigned_df

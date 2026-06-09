@@ -6,7 +6,7 @@ import pickle as pkl
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.pipeline import Pipeline
 
-parser = argparse.ArgumentParser(prog = 'compound_class_prediction.py',
+parser = argparse.ArgumentParser(prog = 'mlacca_cmd.py',
                                  description='script to predict the compound class of empirical formulae contained in CSV files.')
 
 parser.add_argument('dirpath')
