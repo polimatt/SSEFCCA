@@ -31,7 +31,7 @@ vk_region_colours = {
     'lignin': '#33251E',
     'tannin': '#CE833B',
 
-    'pah': "#808080",
+    'pah': '#808080',
 
     'phytochemical': '#52D66E',
 
