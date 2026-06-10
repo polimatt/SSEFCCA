@@ -2,6 +2,8 @@
 [![Python 3.13](https://img.shields.io/badge/python-3.13-blue?logo=python)](https://www.python.org/downloads/release/python-31311/)
 [![Jupyter](https://img.shields.io/badge/Jupyter-blue?logo=jupyter)](https://jupyter.org/)
 
+![[mlacca_logo.svg]]
+
 # MLACCA: Machine Learning-Assisted Compound Class Assignment
 
 Here, code is presented to create and use supervised classification models for elemental ratios (O/C, H/C, and N/C)-based compound class assignment derived from mass spectrometry-derived molecular formula assignment.
