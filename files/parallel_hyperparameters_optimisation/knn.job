@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Grid Engine options go here, e.g.:
+#$ -N KNN
+#$ -cwd
+#$ -pe sharedmem 32
+#$ -l h_rt=00:10:00
+#$ -l h_rss=5G
+#$ -e errors
+#$ -o outputs
+
+# Setup the environment modules command
+source /etc/profile.d/modules.sh
+
+# Load modules if required
+module load anaconda/2024.02
+
+# Job payload - run scripts, commands etc.
+conda activate ssefcca
+
+python hyperparameters_optimisation_knn.py

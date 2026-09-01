@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Grid Engine options go here, e.g.:
+#$ -N UGNBWPAH
+#$ -cwd
+#$ -l h_rt=00:05:00
+#$ -l h_rss=5G
+#$ -e errors
+#$ -o outputs
+#$ -t 1-20
+
+# Setup the environment modules command
+source /etc/profile.d/modules.sh
+
+# Load modules if required
+module load anaconda/2024.02
+
+# Job payload - run scripts, commands etc.
+conda activate ssefcca
+
+python model_accuracy.py -i ${SGE_TASK_ID} -m gnb -c with_pahs -w False
