@@ -1,0 +1,1 @@
+3D SVM (poly) best_estimator_: SVC(C=10, gamma=0.01, kernel='poly')
