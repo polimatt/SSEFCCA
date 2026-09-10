@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Grid Engine options go here, e.g.:
+#$ -N WPSVMacc
+#$ -cwd
+#$ -l h_rt=00:35:00
+#$ -l h_rss=3G
+#$ -e errors
+#$ -o outputs
+#$ -t 1-20
+
+cd ..
+
+# Setup the environment modules command
+source /etc/profile.d/modules.sh
+
+# Load modules if required
+module load anaconda/2024.02
+
+# Job payload - run scripts, commands etc.
+conda activate ssefcca
+
+python model_accuracy.py -i ${SGE_TASK_ID} -m poly_svm -c non_r-u -w True

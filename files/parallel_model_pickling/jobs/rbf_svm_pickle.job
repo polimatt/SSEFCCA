@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Grid Engine options go here, e.g.:
+#$ -N RSVMpkl
+#$ -cwd
+#$ -l h_rt=00:40:00
+#$ -l h_rss=3G
+#$ -e errors
+#$ -o outputs
+
+cd ..
+
+# Setup the environment modules command
+source /etc/profile.d/modules.sh
+
+# Load modules if required
+module load anaconda/2024.02
+
+# Job payload - run scripts, commands etc.
+conda activate ssefcca
+
+python model_pickling.py -m rbf_svm

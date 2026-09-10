@@ -43,8 +43,7 @@ if __name__ == '__main__':
     y_ru[[x in ['tannin', 'lignin'] for x in y_ru]] = 'phytochemical'
 
     # now same but with PAHs
-    columns_3d = ['O/C', 'H/C', 'N/C']
-    X_with_pahs = df_with_pahs[columns_3d].copy().to_numpy()  # 3D features
+    X_with_pahs = df_with_pahs[columns_multi].copy().to_numpy()  # 3D features
     y_with_pahs = df_with_pahs['category'].copy().to_numpy()  # Target labels (including PAH)
 
     #%%
@@ -74,5 +73,5 @@ if __name__ == '__main__':
             combos = [[[y_rdm_train,X_rdm_train,weights_rdm_train],'train'],
                       [[y_rdm_test,X_rdm_test,weights_rdm_test],'test']]
             for combo in combos:
-                sliced_df = create_df(*combo[0],X_cols=columns_3d if definition_type=='with_pahs' else columns_multi)
+                sliced_df = create_df(*combo[0],X_cols=columns_multi if definition_type=='with_pahs' else columns_multi)
                 sliced_df.to_csv(f'{datasets_output_folder}/{i}--{combo[1]}_{definition_type}.csv',index=False)

@@ -56,6 +56,11 @@ clf_models = {
     'gnb':sfc.clf_pipeline(GaussianNB()),
     'poly_svm':sfc.clf_pipeline(SVC(**(sfc.svm_poly_param_3d if args.classes!='with_pahs' else sfc.svm_poly_param_3d_with_PAHs))),
     'rbf_svm':sfc.clf_pipeline(SVC(**(sfc.svm_rbf_param_3d if args.classes!='with_pahs' else sfc.svm_rbf_param_3d_with_PAHs))),
+
+    'knn_multi':sfc.clf_pipeline(KNeighborsClassifier(**(sfc.knn_param_multi))),
+    'gnb_multi':sfc.clf_pipeline(GaussianNB()),
+    'poly_svm_multi':sfc.clf_pipeline(SVC(**(sfc.svm_poly_param_multi))),
+    'rbf_svm_multi':sfc.clf_pipeline(SVC(**(sfc.svm_rbf_param_multi))),
 }
 
 match args.model:
@@ -65,7 +70,7 @@ match args.model:
     case  'hybrid_complete' | 'mscc':
         columns = ['O/C', 'H/C', 'N/C', 'P/C', 'N/P']
 
-    case 'knn_multi' | 'poly_svm_multi' | 'rbf_svm_multi':
+    case 'knn_multi' | 'gnb_multi' | 'poly_svm_multi' | 'rbf_svm_multi':
         columns = ['O/C', 'H/C', 'N/C', 'P/C']
 
     case _:
@@ -92,6 +97,7 @@ if args.model in clf_models:
 
     y_pred = clf.predict(X_test)
 
+
 elif args.model in lit_models:
     if args.model == 'zero_rule':
         zero_rule_class = np.unique(y_test)[np.argmax([len(np.where(y_test == cat)[0]) for cat in np.unique(y_test)])]
@@ -101,6 +107,7 @@ elif args.model in lit_models:
         y_pred = sfc.molecclass(pd.DataFrame(X_test, columns=columns),
                                 areas=lit_models[args.model],
                                 dims=columns)
+
 
 #%%
 # get accuracy
@@ -113,7 +120,7 @@ for accuracy_type in [[accuracy_score, dict(normalize=True),'raw'],
                                               **accuracy_type[1])]
 
 model_string = args.model
-if args.model in clf_models and 'knn' not in args.model:
+if args.model in clf_models and 'knn' not in args.model and 'multi' not in args.model:
     if args.weighted:
         model_string += '_w'
     else:

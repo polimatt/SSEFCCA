@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Grid Engine options go here, e.g.:
+#$ -N LitModelsAcc
+#$ -cwd
+#$ -l h_rt=00:07:00
+#$ -l h_rss=7G
+#$ -e errors
+#$ -o outputs
+
+cd ..
+
+# Setup the environment modules command
+source /etc/profile.d/modules.sh
+
+# Load modules if required
+module load anaconda/2024.02
+
+# Job payload - run scripts, commands etc.
+conda activate ssefcca
+
+python lit_models_abs_accuracy.py

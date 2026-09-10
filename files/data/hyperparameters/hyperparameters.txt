@@ -1,8 +1,0 @@
-3D KNN best_estimator_: KNeighborsClassifier(n_neighbors=10, weights='distance')
-3D KNN with PAHs best_estimator_: KNeighborsClassifier(n_neighbors=10, weights='distance')
-
-3D RBF SVM best_estimator_: SVC(C=1, gamma=0.1)
-3D RBF SVM with PAHs best_estimator_: SVC(C=10, gamma=0.01)
-
-3D SVM (poly) best_estimator_: SVC(C=10, degree=1, gamma=0.1, kernel='poly')
-3D SVM (poly) with PAHs best_estimator_: SVC(C=1, degree=1, gamma=0.1, kernel='poly')

@@ -43,13 +43,16 @@ clf_models = {
     'gnb':sfc.clf_pipeline(GaussianNB()),
     'poly_svm':sfc.clf_pipeline(SVC(**(sfc.svm_poly_param_3d if args.classes!='with_pahs' else sfc.svm_poly_param_3d_with_PAHs))),
     'rbf_svm':sfc.clf_pipeline(SVC(**(sfc.svm_rbf_param_3d if args.classes!='with_pahs' else sfc.svm_rbf_param_3d_with_PAHs))),
+
+    'knn_multi':sfc.clf_pipeline(KNeighborsClassifier(**(sfc.knn_param_multi))),
+    'gnb_multi':sfc.clf_pipeline(GaussianNB()),
+    'poly_svm_multi':sfc.clf_pipeline(SVC(**(sfc.svm_poly_param_multi))),
+    'rbf_svm_multi':sfc.clf_pipeline(SVC(**(sfc.svm_rbf_param_multi))),
 }
 
 match args.model:
-
-    case 'knn_multi' | 'poly_svm_multi' | 'rbf_svm_multi':
+    case 'knn_multi' | 'gnb_multi' | 'poly_svm_multi' | 'rbf_svm_multi' :
         columns = ['O/C', 'H/C', 'N/C', 'P/C']
-
     case _:
         columns = ['O/C', 'H/C', 'N/C']
 

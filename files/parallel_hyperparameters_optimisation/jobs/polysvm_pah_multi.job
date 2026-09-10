@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Grid Engine options go here, e.g.:
+#$ -N PolyNOPAH
+#$ -cwd
+#$ -pe sharedmem 80
+#$ -l h_rt=00:02:30
+#$ -l h_rss=3G
+#$ -e errors
+#$ -o outputs
+
+cd ..
+
+# Setup the environment modules command
+source /etc/profile.d/modules.sh
+
+# Load modules if required
+module load anaconda/2024.02
+
+# Job payload - run scripts, commands etc.
+conda activate ssefcca
+
+$(which python) hyperparameters_optimisation_polysvm_pah_multidimensional.py
