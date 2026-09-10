@@ -1,4 +1,4 @@
-This demo aims at demonstrating how the script compound_class_prediction.py can be used from the command line to predict the compound class of molecular formulae contained in various CSV files derived from mass spectra analysis.
+This demo aims to demonstrate how the script compound_class_prediction.py can be used from the command line to predict the compound class of molecular formulae contained in various CSV files derived from mass spectra analysis.
 
 First of all, it is important to activate a suitable Python environment. In this case, a list of modules used is available in the `../requirements.txt` file.
 To create a conda environment from it, the following command may be used:
