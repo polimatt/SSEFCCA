@@ -18,9 +18,9 @@ More broadly, SSEFCCA represents a blueprint for programmatic retraining and exp
 For more information on how to integrate SSEFCCA in your workflow with worked examples, you may want to check out the [`files/demos`](files/demos) folder.
 
 The demos were made so that end users may benefit from this method (almost) regardless of their coding skill level:
-- In the [`demo--jupyter`](files/demo/demo--jupyter) folder, the demo is aimed at those who want to integrate the classification models directly into their own Python-based MS data analysis pipeline.
-- In the [`demo--command_line`](files/demo/demo--command_line) folder, the demo explains how to use this method from the command line, thus requiring some familiarity with the command line interface but relatively little Python knowledge.
-- Finally, in the [`demo--app`](files/demo/demo--app) a Python-based GUI application is presented. Here, some IT knowledge is still valuable as the correct Python environment needs to be activated (as in the other cases as well), but the app itself guides the user through the process.
+- In the [`demo--jupyter`](files/demos/demo--jupyter) folder, the demo is aimed at those who want to integrate the classification models directly into their own Python-based MS data analysis pipeline.
+- In the [`demo--command_line`](files/demos/demo--command_line) folder, the demo explains how to use this method from the command line, thus requiring some familiarity with the command line interface but relatively little Python knowledge.
+- Finally, in the [`demo--app`](files/demos/demo--app) a Python-based GUI application is presented. Here, some IT knowledge is still valuable as the correct Python environment needs to be activated (as in the other cases as well), but the app itself guides the user through the process.
 
 
 ## Worflow to Generate and Benchmark Models
