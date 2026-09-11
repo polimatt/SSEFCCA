@@ -5,11 +5,9 @@
 ![SSEFCCA logo](logo/ssefcca_logo--black_background.svg)
 
 # SSEFCCA: Supervised Semi-Empirical Formula Compound Class Assignment
-*Authors: Mattia Poli, Nicholle G. A. Bell**
+*Authors: Mattia Poli [<img src='logo/ORCID-iD_icon_vector.svg' width='12'/>](https://orcid.org/0000-0003-4856-1424), <u>Nicholle G. A. Bell</u> [<img src='logo/ORCID-iD_icon_vector.svg' width='12'/>](https://orcid.org/0000-0001-7887-2659)*<br>
+*School of Chemistry University of Edinburgh.*<br>
 
-*School of Chemistry University of Edinburgh.*
-
-** corresponding author.*
 
 Untargeted mass spectrometry can provide molecular formula assignments for thousands of detected analytes in complex mixtures; however, routine structural elucidation at this scale remains impractical.
 SSEFCCA provides a principled, Python-based, and data‑driven approach to (i) improve atomic ratios (O/H, H/C, and N/C)-based compound class assignment accuracy and (ii) evaluate the assignment confidence, thus supporting more defensible and critical downstream comparisons of compoud class diversity across samples.
