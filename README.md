@@ -6,7 +6,9 @@
 
 # SSEFCCA: Supervised Semi-Empirical Formula Compound Class Assignment
 *Authors: Mattia Poli, Nicholle G. A. Bell**
+
 *School of Chemistry University of Edinburgh.*
+
 ** corresponding author.*
 
 Untargeted mass spectrometry can provide molecular formula assignments for thousands of detected analytes in complex mixtures; however, routine structural elucidation at this scale remains impractical.
