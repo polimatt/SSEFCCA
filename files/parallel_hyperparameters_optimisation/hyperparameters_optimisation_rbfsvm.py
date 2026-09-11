@@ -49,20 +49,20 @@ def find_best_hyperparams(clf,params_dictionary,X,y,sample_weight=None,refit=Tru
 # The usual `GridSearchCV` doesn't seem to work properly for RBF: it outputs values of 100,000 for C, which is patently nonsensical for a dataset of <10,000 observations. Therefore, another – unfortunately slower – approach is taken.
 
 # %%
-param_grid_svm_rbf = {
+param_grid_rbf_svm = {
     'kernel':['rbf'],
     'C': [10**(x) for x in range(7)],
     'gamma': ['auto'] + [10**(-x) for x in range(7)],
     }
-param_grid_svm_rbf
+param_grid_rbf_svm
 
 # %%
-grid_rbf_svm_3d=find_best_hyperparams(SVC(),param_grid_svm_rbf,X_3d_scaled,y,sample_weight=weights)
+grid_rbf_svm_3d=find_best_hyperparams(SVC(),param_grid_rbf_svm,X_3d_scaled,y,sample_weight=weights)
 print('3D RBF SVM best_estimator_:', grid_rbf_svm_3d.best_estimator_)
 
 # %%
-# print('3D SVM (RBF) with PAHs best_estimator_', rbf_opt(param_grid_svm_rbf,X_3d_with_pahs,y_with_pahs))
-grid_rbf_svm_pahs_3d = find_best_hyperparams(SVC(),param_grid_svm_rbf,X_3d_with_pahs_scaled,y_with_pahs,sample_weight=weights_with_pahs)
+# print('3D SVM (RBF) with PAHs best_estimator_', rbf_opt(param_grid_rbf_svm,X_3d_with_pahs,y_with_pahs))
+grid_rbf_svm_pahs_3d = find_best_hyperparams(SVC(),param_grid_rbf_svm,X_3d_with_pahs_scaled,y_with_pahs,sample_weight=weights_with_pahs)
 print('3D RBF SVM with PAHs best_estimator_:', grid_rbf_svm_pahs_3d.best_estimator_)
 
 # %%

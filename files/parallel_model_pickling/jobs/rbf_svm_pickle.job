@@ -3,8 +3,8 @@
 # Grid Engine options go here, e.g.:
 #$ -N RSVMpkl
 #$ -cwd
-#$ -l h_rt=00:40:00
-#$ -l h_rss=3G
+#$ -l h_rt=00:20:00
+#$ -l h_rss=2G
 #$ -e errors
 #$ -o outputs
 

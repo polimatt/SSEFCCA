@@ -22,9 +22,8 @@ root.geometry(f'1000x400')
 root.iconbitmap(icon_path)
 
 models_dir_txt = './files_for_app/models_dir.txt'
-f = open(models_dir_txt)
-models_dir = f.readline()
-f.close() 
+with open(models_dir_txt) as f:
+    models_dir = f.readline() 
 models_paths = [x for x in os.listdir(models_dir) if x.endswith('.pkl')]
 
 model_dict = {x:y for x, y in zip([x.replace('.pkl','') for x in models_paths],models_paths)}
@@ -257,7 +256,12 @@ button_data_explore = ttk.Button(root,
                                  command = browsedatadir)
 
 models_list = list(model_dict.keys())
-default_model = [x for x in models_list if 'Poly' in x][0]
+
+default_model_txt = './files_for_app/default_model.txt'
+with open(default_model_txt) as f:
+    default_model = f.readline() 
+assert default_model in models_list, 'The chosen default model is not in the list of available models.'
+
 idx = models_list.index(default_model)
 models_list = [models_list[idx]]+models_list[:idx]+models_list[idx+1:]
 optionmenu_model = ttk.OptionMenu(root, model_chosen, *[models_list[0]]+models_list) # the way the starred expression is used here is necessary as otherwise the first option will disappear from the drop-down menu when another option is selected... go figure

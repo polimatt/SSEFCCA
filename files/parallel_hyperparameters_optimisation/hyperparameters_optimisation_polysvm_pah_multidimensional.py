@@ -36,16 +36,16 @@ def find_best_hyperparams(clf,params_dictionary,X,y,sample_weight=None,refit=Tru
 # choose C and gamma hyperparameters for SVM with polynomial kernel for the multi case
 # https://www.geeksforgeeks.org/machine-learning/svm-hyperparameter-tuning-using-gridsearchcv-ml/
 
-param_grid_svm_poly = {
+param_grid_poly_svm = {
     'kernel':['poly'],
     'degree': list(range(1,4)),
     'C': [10**x for x in range(4)],
     'gamma': ['auto'] + [10**(-x) for x in range(4)],
     }
-param_grid_svm_poly
+param_grid_poly_svm
 
 # %%
-grid_poly_svm_multi = find_best_hyperparams(SVC(),param_grid_svm_poly,X_multi_with_pahs_scaled,y_with_pahs,sample_weight=weights)
+grid_poly_svm_multi = find_best_hyperparams(SVC(),param_grid_poly_svm,X_multi_with_pahs_scaled,y_with_pahs,sample_weight=weights)
 print('multi poly SVM best_estimator_:', grid_poly_svm_multi.best_estimator_)
 
 # %%

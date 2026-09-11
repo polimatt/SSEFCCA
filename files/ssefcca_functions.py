@@ -60,14 +60,14 @@ if hyperparameters is not None:
             case 'knn_multi': knn_param_multi = hyperparameters[key]
 
             # SVM (RBF) hyperparameters
-            case 'rbf_svm_3d': svm_rbf_param_3d = hyperparameters[key]
-            case 'rbf_svm_pahs_3d': svm_rbf_param_3d_with_PAHs = hyperparameters[key]
-            case 'rbf_svm_multi': svm_rbf_param_multi = hyperparameters[key]
+            case 'rbf_svm_3d': rbf_svm_param_3d = hyperparameters[key]
+            case 'rbf_svm_pahs_3d': rbf_svm_param_3d_with_PAHs = hyperparameters[key]
+            case 'rbf_svm_multi': rbf_svm_param_multi = hyperparameters[key]
 
             # SVM (polynomial) hyperparameters
-            case 'poly_svm_3d': svm_poly_param_3d = hyperparameters[key]
-            case 'poly_svm_pahs_3d': svm_poly_param_3d_with_PAHs = hyperparameters[key]
-            case 'poly_svm_multi': svm_poly_param_multi = hyperparameters[key]
+            case 'poly_svm_3d': poly_svm_param_3d = hyperparameters[key]
+            case 'poly_svm_pahs_3d': poly_svm_param_3d_with_PAHs = hyperparameters[key]
+            case 'poly_svm_multi': poly_svm_param_multi = hyperparameters[key]
 
 
 
@@ -638,13 +638,6 @@ def draw_violinplot(data_dict, ylabel, title=None, savepath=None, colours=[],alp
             pc.set_edgecolor('black')
             pc.set_alpha(alpha)
 
-    # # Calculate and display quartiles
-    # quartile1, medians, quartile3 = np.percentile(np.array(data), [25, 50, 75], axis=1)
-
-    # inds = np.arange(1, len(medians) + 1)
-    # ax.scatter(inds, medians, marker='o', color='white', s=30, zorder=3, edgecolors='k')
-    # ax.vlines(inds, quartile1, quartile3, color='k', linestyle='-', lw=5)
-
     # Calculate and display quartiles
     for i in range(len(labels)):
         quartile1, medians, quartile3 = np.percentile(np.array(data[i]), [25, 50, 75])
@@ -656,7 +649,6 @@ def draw_violinplot(data_dict, ylabel, title=None, savepath=None, colours=[],alp
     ax.set_ylabel(ylabel, fontsize=14)
     ax.set_xticks(np.arange(1, len(labels) + 1), labels, rotation=xlabel_rotation, ha=ha, fontsize=12)
     
-
     # Add horizontal reference lines if specified
     if hline:
         if type(hline) in [list, tuple]:

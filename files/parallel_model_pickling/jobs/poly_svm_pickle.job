@@ -3,7 +3,7 @@
 # Grid Engine options go here, e.g.:
 #$ -N PSVMpkl
 #$ -cwd
-#$ -l h_rt=00:40:00
+#$ -l h_rt=03:30:00
 #$ -l h_rss=2G
 #$ -e errors
 #$ -o outputs

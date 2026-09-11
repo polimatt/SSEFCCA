@@ -1,1 +1,1 @@
-./files_for_app/models
+../../data/models

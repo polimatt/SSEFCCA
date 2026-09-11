@@ -16,7 +16,7 @@ parser.add_argument('-op','--outputpath')
 args = parser.parse_args()
 
 # set defaults if arguments not specified
-model_path = '../../data/models/svm_poly.pkl' if not args.modelpath else args.modelpath
+model_path = '../../data/models/poly_svm.pkl' if not args.modelpath else args.modelpath
 outputpath = f'{args.dirpath}--assigned' if not args.outputpath else args.outputpath
 
 if not os.path.isdir(outputpath):

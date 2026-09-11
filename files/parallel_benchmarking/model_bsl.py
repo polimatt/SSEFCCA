@@ -41,13 +41,13 @@ bsl_output_folder = f'{benchmarking_folder}/bsl'
 clf_models = {
     'knn':sfc.clf_pipeline(KNeighborsClassifier(**(sfc.knn_param_3d if args.classes!='with_pahs' else sfc.knn_param_3d_with_PAHs))),
     'gnb':sfc.clf_pipeline(GaussianNB()),
-    'poly_svm':sfc.clf_pipeline(SVC(**(sfc.svm_poly_param_3d if args.classes!='with_pahs' else sfc.svm_poly_param_3d_with_PAHs))),
-    'rbf_svm':sfc.clf_pipeline(SVC(**(sfc.svm_rbf_param_3d if args.classes!='with_pahs' else sfc.svm_rbf_param_3d_with_PAHs))),
+    'poly_svm':sfc.clf_pipeline(SVC(**(sfc.poly_svm_param_3d if args.classes!='with_pahs' else sfc.poly_svm_param_3d_with_PAHs))),
+    'rbf_svm':sfc.clf_pipeline(SVC(**(sfc.rbf_svm_param_3d if args.classes!='with_pahs' else sfc.rbf_svm_param_3d_with_PAHs))),
 
     'knn_multi':sfc.clf_pipeline(KNeighborsClassifier(**(sfc.knn_param_multi))),
     'gnb_multi':sfc.clf_pipeline(GaussianNB()),
-    'poly_svm_multi':sfc.clf_pipeline(SVC(**(sfc.svm_poly_param_multi))),
-    'rbf_svm_multi':sfc.clf_pipeline(SVC(**(sfc.svm_rbf_param_multi))),
+    'poly_svm_multi':sfc.clf_pipeline(SVC(**(sfc.poly_svm_param_multi))),
+    'rbf_svm_multi':sfc.clf_pipeline(SVC(**(sfc.rbf_svm_param_multi))),
 }
 
 match args.model:
