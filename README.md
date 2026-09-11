@@ -34,3 +34,6 @@ If you wish to reproduce the results presented here, or if you wish to expand th
 6. [`3d_plots.ipynb`](files/3d_plots.ipynb): generate more 3D plots of the decision boundaries for presentations.
 
 All modules used can be found in the [`files/requirements.txt`](files/requirements.txt) file.
+
+### Parallel computing
+Given the sheer size of the final dataset, it was necessary to swap to cluster computing. This was done using the scripts in the `parallel_*` folders on [Eddie](https://information-services.ed.ac.uk/research-support/research-computing/ecdf/high-performance-computing), the University of Edinburgh's Research Compute Cluster, running on Rocky Linux 9 using Sun Grid Engine (SGE) as its job scheduler.
