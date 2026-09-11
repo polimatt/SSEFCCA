@@ -1,6 +1,8 @@
-[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-blue.svg)](https://opensource.org/licenses/MPL-2.0)
-[![Python 3.13](https://img.shields.io/badge/python-3.13-blue?logo=python)](https://www.python.org/downloads/release/python-31311/)
-[![Jupyter](https://img.shields.io/badge/Jupyter-blue?logo=jupyter)](https://jupyter.org/)
+[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-green.svg)](https://opensource.org/licenses/MPL-2.0)
+[![Python 3.13](https://img.shields.io/badge/Python-3.13-green?logo=python)](https://www.python.org/downloads/release/python-31311/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.8-green?logo=scikitlearn)](https://scikit-learn.org/stable/)
+[![Jupyter](https://img.shields.io/badge/Jupyter-gray?logo=jupyter)](https://jupyter.org/)
+![OS](https://img.shields.io/badge/OS-Windows%2011%20|%20Rocky%20Linux%209-green)
 
 ![SSEFCCA logo](logo/ssefcca_logo--black_background.svg)
 
@@ -40,3 +42,7 @@ All modules used can be found in the [`files/requirements.txt`](files/requiremen
 
 ### Parallel computing
 Given the sheer size of the final dataset, it was necessary to swap to cluster computing. This was done using the scripts in the `parallel_*` folders on [Eddie](https://information-services.ed.ac.uk/research-support/research-computing/ecdf/high-performance-computing), the University of Edinburgh's Research Compute Cluster, running on Rocky Linux 9 using Sun Grid Engine (SGE) as its job scheduler.
+
+
+# Acknowledgments
+This work was supported by the UKRI NERC grant number UKRI/NEC0013361/1.
