@@ -1,3 +1,0 @@
-3D KNN best_estimator_: KNeighborsClassifier(n_neighbors=10, weights='distance')
-3D KNN with PAHs best_estimator_: KNeighborsClassifier(n_neighbors=10, weights='distance')
-

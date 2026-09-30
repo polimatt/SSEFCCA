@@ -65,7 +65,9 @@ if __name__ == '__main__':
 
     # create random slices of the df for training and testing; save them
     for i in range(1,repeats+1):
+        print(f'Creating random slice #{i}')
         for definition_type in iteration_dict:
+            print(f'\t{i}-{definition_type}')
             X_rdm_train, X_rdm_test, y_rdm_train, y_rdm_test, \
             weights_rdm_train, weights_rdm_test = sfc.train_test(iteration_dict[definition_type]['X'], iteration_dict[definition_type]['y'],
                                                                 random_state=None, stratify_yn=stratify)

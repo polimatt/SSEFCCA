@@ -63,6 +63,8 @@ clf_models = {
     'rbf_svm_multi':sfc.clf_pipeline(SVC(**(sfc.rbf_svm_param_multi))),
 }
 
+['knn','gnb','poly_svm','rbf_svm',]
+
 match args.model:
     case 'dbccr':
         columns = ['O/C','H/C']

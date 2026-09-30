@@ -1,2 +1,0 @@
-3D RBF SVM best_estimator_: SVC(C=1, gamma=0.01)
-3D RBF SVM with PAHs best_estimator_: SVC(C=100000, gamma=1e-05)

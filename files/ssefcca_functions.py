@@ -242,7 +242,7 @@ def clf_pipeline(clf, calibrated=True):
     from sklearn.calibration import CalibratedClassifierCV
 
     return Pipeline(steps=[('scaler', StandardScaler()),
-                           ('clf', CalibratedClassifierCV(clf) if calibrated else clf)])
+                           ('clf', CalibratedClassifierCV(clf,n_jobs=-1) if calibrated else clf)])
 
 
 def get_weights_array(y):
@@ -504,7 +504,7 @@ def draw_decision_boundary_plot(estimator, X, categories, xlabel=None, ylabel=No
 
 
 def draw_boxplot(data_dict, ylabel, title=None, savepath=None, colours=[], hline=None, # ylim=None,
-                 xlabel_rotation=45, ha='right', figsize=None):
+                 xlabel_rotation=45, ha='right', figsize=None, ax=None):
     '''
     Create a customizable boxplot with optional colors and reference lines.
     
@@ -552,7 +552,10 @@ def draw_boxplot(data_dict, ylabel, title=None, savepath=None, colours=[], hline
     - Outliers are displayed by default
     - Figure is saved at 600 DPI with white background if savepath provided
     '''
-    fig, ax = plt.subplots(figsize=figsize)
+    if ax is None:
+        axnone = True
+        fig, ax = plt.subplots(figsize=figsize)
+    else: axnone = False
 
     labels = list(data_dict.keys())
     data = list(data_dict.values())
@@ -585,11 +588,12 @@ def draw_boxplot(data_dict, ylabel, title=None, savepath=None, colours=[], hline
     if title: ax.set_title(title, fontsize=title_label_size)
     if savepath: fig.savefig(savepath, dpi=600, facecolor='#fff', bbox_inches='tight')
 
-    return fig, ax
+    if axnone: return fig, ax
+    else: return ax
 
 
 def draw_violinplot(data_dict, ylabel, title=None, savepath=None, colours=[],alpha=1,
-                    hline=None, xlabel_rotation=45, ha='right', figsize=(6.4, 4.8)):
+                    hline=None, xlabel_rotation=45, ha='right', figsize=(6.4, 4.8),ax=None):
     '''
     Create a violin plot to visualize the distribution of data.
     
@@ -621,7 +625,10 @@ def draw_violinplot(data_dict, ylabel, title=None, savepath=None, colours=[],alp
     labels = list(data_dict.keys())
     data = list(data_dict.values())
 
-    fig, ax = plt.subplots(figsize=figsize)
+    if ax is None:
+        axnone = True
+        fig, ax = plt.subplots(figsize=figsize)
+    else: axnone = False
 
     # Create violin plots without default decorations
     parts = ax.violinplot(data,
@@ -662,7 +669,8 @@ def draw_violinplot(data_dict, ylabel, title=None, savepath=None, colours=[],alp
     if savepath:
         fig.savefig(savepath, dpi=600, facecolor='#fff', bbox_inches='tight')
 
-    return fig, ax
+    if axnone: return fig, ax
+    else: return ax
 
 
 def Shannon_diversity_index(labels:np.ndarray|pd.Series|list) -> float:
