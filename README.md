@@ -1,8 +1,9 @@
-[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-green.svg)](https://opensource.org/licenses/MPL-2.0)
-[![Python 3.13](https://img.shields.io/badge/Python-3.13-green?logo=python)](https://www.python.org/downloads/release/python-31311/)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.8-green?logo=scikitlearn)](https://scikit-learn.org/stable/)
+[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-blue.svg)](https://opensource.org/licenses/MPL-2.0)
+[![Python 3.13](https://img.shields.io/badge/Python-3.13-blue?logo=python)](https://www.python.org/downloads/release/python-31311/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.8-blue?logo=scikitlearn)](https://scikit-learn.org/stable/)
 [![Jupyter](https://img.shields.io/badge/Jupyter-gray?logo=jupyter)](https://jupyter.org/)
-![OS](https://img.shields.io/badge/OS-Windows%2011%20|%20Rocky%20Linux%209-green)
+![OS](https://img.shields.io/badge/OS-Windows%2011%20|%20Rocky%20Linux%209-blue)
+[![DOI](https://zenodo.org/badge/1115267277.svg)](https://doi.org/10.5281/zenodo.23061181)
 
 ![SSEFCCA logo](logo/ssefcca_logo--black_background.svg)
 
